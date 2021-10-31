@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
@@ -18,6 +19,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
+    private final MailSenderService mailSenderService;
+
+    public UserServiceImpl(MailSenderService mailSenderService) {
+        this.mailSenderService = mailSenderService;
+    }
 
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
@@ -53,5 +59,23 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(Utils.getRandomActivationCode());
         userRepository.save(user);
+        mailSenderService.sendActivateCode(user);
+    }
+
+    @Override
+    @Transactional
+    public boolean activateUser(String activateCode) {
+        if(activateCode == null || activateCode.isEmpty()){
+            return false;
+        }
+        User user = userRepository.findFirstByActivationCode(activateCode);
+        if(user == null){
+            return false;
+        }
+        user.setActivated(true);
+        user.setActivationCode(null);
+        userRepository.save(user);
+
+        return true;
     }
 }
