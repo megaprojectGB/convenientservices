@@ -5,68 +5,118 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convenient Services - Registration</title>
+    <title>Registration - Convenient Services</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/styles/style.css" th:href="@{/styles/style.css}">
 </head>
 
-<body>
-<div class="container">
-    <div class="header">
-        <h3 class="header_title">Registration</h3>
-    </div>
-    <div class="main shadow p-3 mb-5 bg-body rounded">
-        <form th:action="@{/registration}" method="post" th:object="${user}">
-            <div class="mb-3">
-                <label for="login" class="form-label">Login</label>
-                <input th:field="*{userName}" type="text" class="form-control" id="login" name="login" aria-describedby="emailHelp"
-                       placeholder="Enter your Login">
+<body class="bg-light">
+<div class="container container2">
+    <main>
+        <div class="py-1 text-center">
+            <a href="/"><img class="d-block mx-auto mb-3" th:src="@{../img/logo.png}" src="../../static/img/logo.png" alt="logo" width="200"></a>
+            <h2>Регистрация нового пользователя</h2>
+            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form
+                group has a validation state that can be triggered by attempting to submit the form without completing
+                it.</p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8 container" >
+                <h4 class="mb-3">Введите Ваши данные:</h4>
+                <form class="needs-validation" novalidate="" th:action="@{/registration}" method="post"
+                      th:object="${user}">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">Имя</label>
+                            <input input th:field="*{firstName}" type="text" class="form-control" id="firstname"
+                                   name="firstname" placeholder="Ivan">
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Фамилия</label>
+                            <input th:field="*{lastName}" type="text" class="form-control" id="lastname" name="lastname"
+                                   placeholder="Petrov">
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="login" class="form-label">Логин</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">@</span>
+                                <input th:field="*{userName}" type="text" class="form-control" id="login" name="login"
+                                       placeholder="Username">
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email</label>
+                            <input th:field="*{email}" type="email" class="form-control" id="email" name="email"
+                                   placeholder="you@example.com">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="phone" class="form-label">Телефон</label>
+                            <input th:field="*{phone}" type="text" class="form-control" id="phone" name="phone"
+                                   placeholder="+7-906-600-00-06"
+                                   required>
+                            <div class="invalid-feedback">
+                                Please enter your phone.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input th:field="*{password}" type="password" class="form-control" id="password"
+                                   name="password" placeholder="Введите пароль">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="matchingPassword" class="form-label">Подтверждение пароля</label>
+                            <input type="password" class="form-control" id="matchingPassword"
+                                   name="matchingPassword" placeholder="Подтвердите пароль">
+                        </div>
+
+                        <div class="col-md-5">
+                            <label for="role" class="form-label">Выберите тип аккаунта</label>
+                            <select class="form-select" aria-label="User role" id="role" name="role">
+                                <option selected value="2">Client</option>
+                                <option value="1">Business</option>
+                                <option value="3">Master</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <small class="text-muted"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Нажимая «Зарегистрироваться», вы соглашаетесь с условиями использования.</font></font></small>
+                    <button class="my-4 w-100 btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input th:field="*{password}" type="password" class="form-control" id="password" name="password"
-                       placeholder="Enter your Password">
-            </div>
-            <div class="mb-3">
-                <label for="matchingPassword" class="form-label">Confirm password</label>
-                <input type="password" class="form-control" id="matchingPassword" name="matchingPassword"
-                       placeholder="Confirm your password">
-            </div>
-            <div class="mb-3">
-                <label for="firstname" class="form-label">First name</label>
-                <input th:field="*{firstName}" type="text" class="form-control" id="firstname" name="firstname"
-                       placeholder="First name">
-            </div>
-            <div class="mb-3">
-                <label for="lastname" class="form-label">Last name</label>
-                <input th:field="*{lastName}" type="text" class="form-control" id="lastname" name="lastname"
-                       placeholder="Last name">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input th:field="*{email}" type="email" class="form-control" id="email" name="email"
-                       placeholder="Your Email">
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone number</label>
-                <input th:field="*{phone}" type="text" class="form-control" id="phone" name="phone"
-                       placeholder="Your phone number">
-            </div>
-            <div class="mb-3">
-                <label for="role" class="form-label">Who are you?</label>
-                <select class="form-select" aria-label="User role" id="role" name="role">
-                    <option selected value="2">Client</option>
-                    <option value="1">Business</option>
-                    <option value="3">Master</option>
-                </select>
-            </div>
-            <div class="login_buttons">
-                <input type="button" class="btn btn-outline-danger" onClick='location.href="/"' value="Back">
-                <button type="reset" class="btn btn-outline-warning">Clear</button>
-                <button type="submit" class="btn btn-primary">Registration</button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2021 - Convenient Services LLC</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
 </div>
 </body>
 
