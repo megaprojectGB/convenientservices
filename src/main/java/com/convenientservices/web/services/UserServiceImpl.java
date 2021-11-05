@@ -16,6 +16,11 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final String PASSWORD_DOES_NOT_MATCH = "password";
+    private final String SUCCESS = "success";
+    private final String USER_EXIST = "user";
+    private final String PHONE_EXIST = "phone";
+    private final String EMAIL_EXIST = "email";
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
@@ -51,25 +56,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerNewUser(User user, String role, String matchingPassword) {
+    public String registerNewUser(User user, String role, String matchingPassword) {
         if (!Utils.passwordMatching(user.getPassword(), matchingPassword)) {
-            throw new IllegalArgumentException("The password doesn't match");
+            return PASSWORD_DOES_NOT_MATCH;
+        }
+        if (userRepository.findUserByUserName(user.getUserName()).isPresent()) {
+            return USER_EXIST;
+        }
+        if (userRepository.findFirstByEmail(user.getEmail()).isPresent()) {
+            return EMAIL_EXIST;
+        }
+        if (userRepository.findFirstByPhone(user.getPhone()).isPresent()) {
+            return PHONE_EXIST;
         }
         user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(Utils.getRandomActivationCode());
         userRepository.save(user);
         mailSenderService.sendActivateCode(user);
+        return SUCCESS;
     }
 
     @Override
     @Transactional
     public boolean activateUser(String activateCode) {
-        if(activateCode == null || activateCode.isEmpty()){
+        if (activateCode == null || activateCode.isEmpty()) {
             return false;
         }
         User user = userRepository.findFirstByActivationCode(activateCode);
-        if(user == null){
+        if (user == null) {
             return false;
         }
         user.setActivated(true);

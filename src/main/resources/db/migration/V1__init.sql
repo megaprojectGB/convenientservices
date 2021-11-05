@@ -1,16 +1,16 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
-    id       SERIAL PRIMARY KEY,
-    username VARCHAR(255) UNIQUE,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    password VARCHAR(255),
-    is_archived  BOOLEAN DEFAULT FALSE,
-    is_activated  BOOLEAN DEFAULT FALSE,
+    id              SERIAL PRIMARY KEY,
+    username        VARCHAR(255) UNIQUE,
+    first_name      VARCHAR(255),
+    last_name       VARCHAR(255),
+    password        VARCHAR(255),
+    is_archived     BOOLEAN DEFAULT FALSE,
+    is_activated    BOOLEAN DEFAULT FALSE,
     activation_code VARCHAR(255),
-    email VARCHAR(255),
-    phone VARCHAR(255)
+    email           VARCHAR(255) UNIQUE,
+    phone           VARCHAR(255) UNIQUE
 );
 
 DROP TABLE IF EXISTS roles;

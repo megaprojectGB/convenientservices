@@ -2,6 +2,7 @@ package com.convenientservices.web.controllers;
 
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.services.UserService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ public class MainController {
     @GetMapping("/registration")
     public String showRegistrationPage(Model model) {
         model.addAttribute(new User());
+        model.addAttribute("answer", "");
         return "registration";
     }
 
@@ -39,10 +41,16 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String registrationUser(@ModelAttribute("user") User user,
+    public String registrationUser(Model model,
+                                   @ModelAttribute("user") User user,
                                    @RequestParam String role,
                                    @RequestParam String matchingPassword) {
-        userService.registerNewUser(user, role, matchingPassword);
-        return "redirect:/main";
+        String answer = userService.registerNewUser(user, role, matchingPassword);
+        if ("success".equals(answer)) {
+            model.addAttribute("success", true);
+            return "login";
+        }
+        model.addAttribute("answer", answer);
+        return "registration";
     }
 }
