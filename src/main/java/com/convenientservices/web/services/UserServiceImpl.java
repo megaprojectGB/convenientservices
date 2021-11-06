@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final String USER_EXIST = "user";
     private final String PHONE_EXIST = "phone";
     private final String EMAIL_EXIST = "email";
+    private final String UNKNOWN = "Unknown User";
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
@@ -92,5 +93,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return true;
+    }
+
+    @Override
+    public String getFIO(String name) {
+        User user = userRepository.findUserByUserName(name).orElse(null);
+        if (user == null) return UNKNOWN;
+        return "Привет, ".concat(user.getFirstName()).concat(" ").concat(user.getLastName());
     }
 }

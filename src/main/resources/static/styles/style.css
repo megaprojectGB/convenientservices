@@ -6,3 +6,12 @@
 .container2 {
     max-width: 960px;
 }
+
+a {
+    text-decoration: none;
+    color: dimgray;
+}
+
+a:visited {
+    color: dimgray;
+}

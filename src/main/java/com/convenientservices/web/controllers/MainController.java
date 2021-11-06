@@ -2,11 +2,12 @@ package com.convenientservices.web.controllers;
 
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.services.UserService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping()
@@ -24,7 +25,10 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String showMainPage() {
+    public String showMainPage(Principal principal,
+                               Model model) {
+
+        model.addAttribute("username", userService.getFIO(principal.getName()));
         return "main";
     }
 
