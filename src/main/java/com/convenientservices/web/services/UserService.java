@@ -8,4 +8,6 @@ public interface UserService {
     String registerNewUser(User user, String role, String password);
 
     boolean activateUser(String activateCode);
+
+    String getFIO(String name);
 }

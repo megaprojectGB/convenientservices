@@ -5,20 +5,347 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convenient Services - MAIN</title>
+    <title>Выбор организации - Convenient Services</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/styles/style.css" th:href="@{/styles/style.css}">
+
 </head>
 
-<body>
-<div class="container">
-    <div class="header">
-        <h3 class="header_title">Convenient Services - MAIN PAGE</h3>
-    </div>
-    <div class="main shadow p-3 mb-5 bg-body rounded">
+<body class="bg-light">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="files" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
+    </symbol>
+    <symbol id="booking" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+    </symbol>
+    <symbol id="account" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+        <path fill-rule="evenodd"
+              d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+    </symbol>
+    <symbol id="exit" viewBox="0 0 16 16" fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+        <path fill-rule="evenodd"
+              d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+    </symbol>
+    <symbol id="else" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M10 2a2 2 0 0 1-1.5 1.937v5.087c.863.083 1.5.377 1.5.726 0 .414-.895.75-2 .75s-2-.336-2-.75c0-.35.637-.643 1.5-.726V3.937A2 2 0 1 1 10 2z"/>
+        <path d="M0 9.665v1.717a1 1 0 0 0 .553.894l6.553 3.277a2 2 0 0 0 1.788 0l6.553-3.277a1 1 0 0 0 .553-.894V9.665c0-.1-.06-.19-.152-.23L9.5 6.715v.993l5.227 2.178a.125.125 0 0 1 .001.23l-5.94 2.546a2 2 0 0 1-1.576 0l-5.94-2.546a.125.125 0 0 1 .001-.23L6.5 7.708l-.013-.988L.152 9.435a.25.25 0 0 0-.152.23z"/>
+    </symbol>
+</svg>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link active" href="/">Convenient Services</a></li>
+            <li class="nav-item active"><a class="nav-link" href="/">Главная</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/main">Поиск организаций</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Мои бронирования</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">О сервисе</a></li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">[[${username}]]</a>
+                <ul class="dropdown-menu dropdown-menu-dark mx-0 border-0 shadow" style="width: 220px;">
+                    <li><a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                        <svg class="bi" width="16" height="16">
+                            <use xlink:href="#account"></use>
+                        </svg>
+                        Личный кабинет</a></li>
+                    <li><a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                        <svg class="bi" width="16" height="16">
+                            <use xlink:href="#booking"></use>
+                        </svg>
+                        Бронирования
+                    </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#else"></use>
+                            </svg>
+                            Избранное
+                        </a>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2 align-items-center" href="/logout">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#exit"></use>
+                            </svg>
+                            Выйти
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
+</nav>
+
+<div class="container">
+    <div class="main">
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Выберите город</a>
+                    <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
+                        <form class="p-2 mb-2 bg-light border-bottom">
+                            <input type="search" class="form-control" autocomplete="false"
+                                   placeholder="Type to filter...">
+                        </form>
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-success rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Белгород
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-primary rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Санкт-Петербург
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-danger rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Москва
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-info rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Казань
+                            </a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Выберите категорию</a>
+                    <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
+                        <form class="p-2 mb-2 bg-light border-bottom">
+                            <input type="search" class="form-control" autocomplete="false"
+                                   placeholder="Type to filter...">
+                        </form>
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-success rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Парикмахерская
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-primary rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Автосервис
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-danger rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Ногтевые услуги
+                            </a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                <span class="d-inline-block bg-info rounded-circle"
+                                      style="width: .5em; height: .5em;"></span>
+                                Сексуальные услуги =)
+                            </a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div >
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-secondary" type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Любимые компании</h6>
+            <a href="#">
+                <div class="d-flex text-muted pt-3">
+
+                    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                         preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#007bff"></rect>
+                        <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                    </svg>
+                    <p class="pb-3 mb-0 small lh-sm border-bottom">
+                        <strong class="d-block text-gray-dark">Компания 1</strong>
+                        <span class="d-block">Категория</span>
+                        Some representative placeholder content, with some information about this user. Imagine this
+                        being
+                        some sort of status update, perhaps?
+                    </p>
+                </div>
+            </a>
+            <a href="#">
+                <div class="d-flex text-muted pt-3">
+                    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                         preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#e83e8c"></rect>
+                        <text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
+                    </svg>
+                    <p class="pb-3 mb-0 small lh-sm border-bottom">
+                        <strong class="d-block text-gray-dark">Компания 1</strong>
+                        <span class="d-block">Категория</span>
+                        Some representative placeholder content, with some information about this user. Imagine this
+                        being
+                        some sort of status update, perhaps?
+                    </p>
+                </div>
+            </a>
+            <a href="#">
+                <div class="d-flex text-muted pt-3">
+                    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                         preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#6f42c1"></rect>
+                        <text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text>
+                    </svg>
+                    <p class="pb-3 mb-0 small lh-sm border-bottom">
+                        <strong class="d-block text-gray-dark">Компания 1</strong>
+                        <span class="d-block">Категория</span>
+                        Some representative placeholder content, with some information about this user. Imagine this
+                        being
+                        some sort of status update, perhaps?
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Все компании</h6>
+            <div class="d-flex text-muted pt-3">
+                <a href="#777">
+                    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                         preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#007bff"></rect>
+                        <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                    </svg>
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-gray-dark">Компания 1</strong>
+                            <a href="#7">Добавить в избранное</a>
+                        </div>
+                        <span class="d-block">Категория</span>
+                        <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                    </div>
+                </a>
+            </div>
+            <div class="d-flex text-muted pt-3">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-gray-dark">Компания 1</strong>
+                        <a href="#">Добавить в избранное</a>
+                    </div>
+                    <span class="d-block">Категория</span>
+                    <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                </div>
+            </div>
+            <div class="d-flex text-muted pt-3">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-gray-dark">Компания 1</strong>
+                        <a href="#">Добавить в избранное</a>
+                    </div>
+                    <span class="d-block">Категория</span>
+                    <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                </div>
+            </div>
+            <div class="d-flex text-muted pt-3">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-gray-dark">Компания 1</strong>
+                        <a href="#">Добавить в избранное</a>
+                    </div>
+                    <span class="d-block">Категория</span>
+                    <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                </div>
+            </div>
+            <div class="d-flex text-muted pt-3">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-gray-dark">Компания 1</strong>
+                        <a href="#">Добавить в избранное</a>
+                    </div>
+                    <span class="d-block">Категория</span>
+                    <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                </div>
+            </div>
+            <div class="d-flex text-muted pt-3">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-gray-dark">Компания 1</strong>
+                        <a href="#">Добавить в избранное</a>
+                    </div>
+                    <span class="d-block">Категория</span>
+                    <span class="d-block">АдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдресАдрес</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-top pb-1 mb-1">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Главная</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+        </ul>
+        <p class="text-center text-muted">© 2021 Company, Inc</p>
+    </footer>
+</div>
 </div>
 </body>
-
 </html>
