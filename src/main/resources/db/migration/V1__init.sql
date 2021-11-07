@@ -22,7 +22,7 @@ CREATE TABLE "users_roles" (
                                PRIMARY KEY ("user_id", "role_id")
 );
 
-CREATE TABLE "addresses" (
+CREATE TABLE "address" (
                              "id" SERIAL PRIMARY KEY,
                              "zipcode" VARCHAR(255),
                              "cityId" int,
@@ -30,7 +30,7 @@ CREATE TABLE "addresses" (
                              "address2" VARCHAR(255)
 );
 
-CREATE TABLE "cities" (
+CREATE TABLE "city" (
                           "id" int PRIMARY KEY,
                           "name" VARCHAR(30),
                           "state" VARCHAR(30),
@@ -45,8 +45,7 @@ CREATE TABLE "serviceCategory" (
 
 CREATE TABLE "office" (
                           "id" SERIAL PRIMARY KEY,
-                          "addressId" int,
-                          "categoryId" int
+                          "addressId" int
 );
 
 CREATE TABLE "category" (
@@ -60,6 +59,16 @@ CREATE TABLE "service" (
                            "serviceCategoryId" int,
                            "name" VARCHAR(255),
                            "duration" interval
+);
+
+CREATE TABLE "serviceProperties" (
+    "bookingId" int,
+    "serviceId" int
+);
+
+CREATE TABLE "categoryDetails" (
+    "officeId" int,
+    "categoryId" int
 );
 
 CREATE TABLE "pointOfServices" (
@@ -92,17 +101,15 @@ ALTER TABLE "users_roles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "users_roles" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 
-ALTER TABLE "addresses" ADD FOREIGN KEY ("cityId") REFERENCES "cities" ("id");
+ALTER TABLE "address" ADD FOREIGN KEY ("cityId") REFERENCES "city" ("id");
 
-ALTER TABLE "office" ADD FOREIGN KEY ("addressId") REFERENCES "addresses" ("id");
-
-ALTER TABLE "office" ADD FOREIGN KEY ("categoryId") REFERENCES "category" ("id");
+ALTER TABLE "office" ADD FOREIGN KEY ("addressId") REFERENCES "address" ("id");
 
 ALTER TABLE "service" ADD FOREIGN KEY ("serviceCategoryId") REFERENCES "serviceCategory" ("id");
 
 ALTER TABLE "pointOfServices" ADD FOREIGN KEY ("bossUserId") REFERENCES "users" ("id");
 
-ALTER TABLE "pointOfServices" ADD FOREIGN KEY ("addressId") REFERENCES "addresses" ("id");
+ALTER TABLE "pointOfServices" ADD FOREIGN KEY ("addressId") REFERENCES "address" ("id");
 
 ALTER TABLE "master_pos" ADD FOREIGN KEY ("masterUserId") REFERENCES "users" ("id");
 
@@ -120,3 +127,6 @@ ALTER TABLE "booking" ADD FOREIGN KEY ("pointOfServicesId") REFERENCES "pointOfS
 
 ALTER TABLE "booking" ADD FOREIGN KEY ("serviceId") REFERENCES "service" ("id");
 
+ALTER TABLE "serviceProperties" ADD FOREIGN KEY ("serviceId") REFERENCES "service" ("id");
+
+ALTER TABLE "serviceProperties" ADD FOREIGN KEY ("bookingId") REFERENCES "booking" ("id");
