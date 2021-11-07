@@ -130,3 +130,10 @@ ALTER TABLE "booking" ADD FOREIGN KEY ("serviceId") REFERENCES "service" ("id");
 ALTER TABLE "serviceProperties" ADD FOREIGN KEY ("serviceId") REFERENCES "service" ("id");
 
 ALTER TABLE "serviceProperties" ADD FOREIGN KEY ("bookingId") REFERENCES "booking" ("id");
+
+ALTER TABLE "categoryDetails" ADD FOREIGN KEY ("officeId") REFERENCES "office" ("id");
+
+ALTER TABLE "categoryDetails" ADD FOREIGN KEY ("categoryId") REFERENCES "category" ("id");
+
+
+
