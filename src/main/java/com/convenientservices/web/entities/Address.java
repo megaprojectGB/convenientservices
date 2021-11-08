@@ -16,7 +16,7 @@ public class Address {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "zipcode")
     private String zipcode;
@@ -47,7 +47,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + (zipcode != null ? zipcode.hashCode() : 0);
         result = 31 * result + (address1 != null ? address1.hashCode() : 0);
         result = 31 * result + (address2 != null ? address2.hashCode() : 0);

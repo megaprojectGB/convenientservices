@@ -18,7 +18,7 @@ public class Booking {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "dt")
     private Timestamp dt;
@@ -33,9 +33,9 @@ public class Booking {
     private PointOfServices pointOfServices;
 
     @ManyToMany
-    @JoinTable(name = "serviceProperties",
-            joinColumns = @JoinColumn(name = "bookingId"),
-            inverseJoinColumns = @JoinColumn(name = "serviceId"))
+    @JoinTable(name = "service_properties",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
     Collection<Service> services;
 
     @Override
@@ -53,7 +53,7 @@ public class Booking {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + (dt != null ? dt.hashCode() : 0);
         return result;
     }

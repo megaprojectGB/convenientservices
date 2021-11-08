@@ -17,15 +17,15 @@ public class Office {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     private Address address;
 
     @ManyToMany
-    @JoinTable(name = "categoryDetails",
-            joinColumns = @JoinColumn(name = "officeId"),
-            inverseJoinColumns = @JoinColumn(name = "categoryId"))
+    @JoinTable(name = "category_details",
+            joinColumns = @JoinColumn(name = "office_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Collection<Category> categories;
 
     @Override
@@ -42,6 +42,6 @@ public class Office {
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 }

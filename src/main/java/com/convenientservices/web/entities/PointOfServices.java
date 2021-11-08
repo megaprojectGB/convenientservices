@@ -10,13 +10,13 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pointOfServices")
+@Table(name = "point_of_services")
 public class PointOfServices {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -42,7 +42,7 @@ public class PointOfServices {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
