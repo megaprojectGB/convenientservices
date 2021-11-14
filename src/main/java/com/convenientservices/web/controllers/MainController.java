@@ -30,6 +30,7 @@ public class MainController {
     public String showMainPage(Principal principal,
                                Model model) {
         model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         return "main";
     }
 
