@@ -1,9 +1,12 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.User;
+import com.convenientservices.web.mapper.UserMapper;
 import com.convenientservices.web.repositories.RoleRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import com.convenientservices.web.utilities.Utils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
+    private final UserMapper mapper = UserMapper.MAPPER;
 
     public UserServiceImpl(MailSenderService mailSenderService) {
         this.mailSenderService = mailSenderService;
@@ -101,5 +105,13 @@ public class UserServiceImpl implements UserService {
         if (principal == null) return UNKNOWN;
         User user = userRepository.findUserByUserName(principal.getName()).orElse(null);
         return "Привет, ".concat(user.getFirstName()).concat(" ").concat(user.getLastName());
+    }
+
+    @Override
+    public UserDTO getUserDTOByUserName(Principal principal) {
+        if (principal == null) throw new NullPointerException("Principal is NULL");
+        Optional<User> optionalUser = userRepository.findUserByUserName(principal.getName());
+        if (optionalUser.isEmpty()) throw new NoSuchElementException("User nor found");
+        return mapper.fromUser(optionalUser.get());
     }
 }
