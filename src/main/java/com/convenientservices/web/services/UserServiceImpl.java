@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
@@ -96,9 +97,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getFIO(String name) {
-        User user = userRepository.findUserByUserName(name).orElse(null);
-        if (user == null) return UNKNOWN;
+    public String getFIO(Principal principal) {
+        if (principal == null) return UNKNOWN;
+        User user = userRepository.findUserByUserName(principal.getName()).orElse(null);
         return "Привет, ".concat(user.getFirstName()).concat(" ").concat(user.getLastName());
     }
 }

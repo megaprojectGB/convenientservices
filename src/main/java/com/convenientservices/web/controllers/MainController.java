@@ -20,16 +20,24 @@ public class MainController {
     }
 
     @GetMapping
-    public String showIndexPage() {
+    public String showIndexPage(Principal principal,
+                                Model model) {
+        model.addAttribute("username", userService.getFIO(principal));
         return "index";
     }
 
     @GetMapping("/main")
     public String showMainPage(Principal principal,
                                Model model) {
-
-        model.addAttribute("username", userService.getFIO(principal.getName()));
+        model.addAttribute("username", userService.getFIO(principal));
         return "main";
+    }
+
+    @GetMapping("/about")
+    public String showAboutPage(Principal principal,
+                                Model model) {
+        model.addAttribute("username", userService.getFIO(principal));
+        return "about";
     }
 
     @GetMapping("/registration")
