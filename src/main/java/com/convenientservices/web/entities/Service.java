@@ -26,6 +26,7 @@ public class Service {
     private Time duration;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private ServiceCategory category;
 
     @Override

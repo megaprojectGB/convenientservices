@@ -20,6 +20,7 @@ public class Office {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @ManyToMany
