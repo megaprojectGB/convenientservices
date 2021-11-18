@@ -27,6 +27,9 @@ public class PointOfServices {
     @ManyToOne
     private Address address;
 
+    @ManyToOne
+    private Category category;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

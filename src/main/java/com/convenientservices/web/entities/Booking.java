@@ -24,12 +24,15 @@ public class Booking {
     private Timestamp dt;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "master_id", nullable = false)
     private User master;
 
     @ManyToOne
+    @JoinColumn(name = "point_of_services_id", nullable = false)
     private PointOfServices pointOfServices;
 
     @ManyToMany
