@@ -22,6 +22,7 @@ public class PointOfServices {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name="boss_user_id")
     private User boss;
 
     @ManyToOne

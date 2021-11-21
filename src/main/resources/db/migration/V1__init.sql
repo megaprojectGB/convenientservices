@@ -22,6 +22,18 @@ CREATE TABLE "users_roles" (
                                PRIMARY KEY ("user_id", "role_id")
 );
 
+CREATE TABLE "users_points" (
+                               "user_id" BIGINT NOT NULL,
+                               "point_id" BIGINT NOT NULL,
+                               PRIMARY KEY ("user_id", "point_id")
+);
+
+CREATE TABLE "masters_services" (
+                                "user_id" BIGINT NOT NULL,
+                                "service_id" BIGINT NOT NULL,
+                                PRIMARY KEY ("user_id", "service_id")
+);
+
 CREATE TABLE "address" (
                              "id" SERIAL PRIMARY KEY,
                              "zipcode" VARCHAR(255),
@@ -60,11 +72,6 @@ CREATE TABLE "service_properties" (
     "booking_id" int,
     "service_id" int
 );
-
--- CREATE TABLE "category_details" (
---     "pos_id" int,
---     "category_id" int
--- );
 
 CREATE TABLE "point_of_services" (
                                    "id" SERIAL PRIMARY KEY,
