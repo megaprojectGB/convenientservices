@@ -1,8 +1,7 @@
 package com.convenientservices.web.controllers;
 
-import com.convenientservices.web.entities.User;
 import com.convenientservices.web.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping()
 public class MainController {
-    private UserService userService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
     public String showIndexPage(Principal principal,
@@ -39,31 +34,5 @@ public class MainController {
                                 Model model) {
         model.addAttribute("username", userService.getFIO(principal));
         return "about";
-    }
-
-    @GetMapping("/registration")
-    public String showRegistrationPage(Model model) {
-        model.addAttribute(new User());
-        model.addAttribute("answer", "");
-        return "registration";
-    }
-
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
-    }
-
-    @PostMapping("/registration")
-    public String registrationUser(Model model,
-                                   @ModelAttribute("user") User user,
-                                   @RequestParam String role,
-                                   @RequestParam String matchingPassword) {
-        String answer = userService.registerNewUser(user, role, matchingPassword);
-        if ("success".equals(answer)) {
-            model.addAttribute("success", true);
-            return "login";
-        }
-        model.addAttribute("answer", answer);
-        return "registration";
     }
 }
