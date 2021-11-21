@@ -5,6 +5,7 @@ import com.convenientservices.web.repositories.ServiceRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 @AllArgsConstructor
@@ -12,8 +13,8 @@ public class ServiceServiceImpl implements ServiceService {
     private ServiceRepository repository;
 
     @Override
-    public Service findById (Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+    public Optional<Service> findById (Long id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -27,7 +28,7 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Service findByName (String name) {
-        return repository.findByName(name).orElseThrow();
+    public Optional<Service> findByName (String name) {
+        return repository.findByName(name);
     }
 }
