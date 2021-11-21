@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final String PASSWORD_DOES_NOT_MATCH = "password";
     private final String SUCCESS = "success";
@@ -26,30 +27,11 @@ public class UserServiceImpl implements UserService {
     private final String PHONE_EXIST = "phone";
     private final String EMAIL_EXIST = "email";
     private final String UNKNOWN = "Unknown User";
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
     private final UserMapper mapper = UserMapper.MAPPER;
-
-    public UserServiceImpl(MailSenderService mailSenderService) {
-        this.mailSenderService = mailSenderService;
-    }
-
-    @Autowired
-    public void setEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
-
-    @Autowired
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User getUserByUsername(String name) {

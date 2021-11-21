@@ -2,7 +2,7 @@ package com.convenientservices.web.controllers;
 
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping()
 public class MainController {
-    private UserService userService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
     public String showIndexPage(Principal principal,
