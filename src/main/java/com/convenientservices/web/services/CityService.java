@@ -9,4 +9,5 @@ public interface CityService {
     List<City> findAll();
     City save(City city);
     City findByName(String name);
+    String findCorrectNameOfCity(String name);
 }
