@@ -26,6 +26,7 @@ public class Service {
     private Time duration;
 
     @ManyToOne
+    @JoinColumn(name = "service_category_id")
     private ServiceCategory category;
 
     @Override
@@ -48,5 +49,15 @@ public class Service {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", category=" + category +
+                '}';
     }
 }

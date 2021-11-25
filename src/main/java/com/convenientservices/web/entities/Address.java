@@ -28,6 +28,7 @@ public class Address {
     private String address2;
 
     @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
     @Override

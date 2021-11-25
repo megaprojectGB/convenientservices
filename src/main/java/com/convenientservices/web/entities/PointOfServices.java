@@ -22,10 +22,14 @@ public class PointOfServices {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name="boss_user_id")
     private User boss;
 
     @ManyToOne
     private Address address;
+
+    @ManyToOne
+    private Category category;
 
     @Override
     public boolean equals(Object o) {
