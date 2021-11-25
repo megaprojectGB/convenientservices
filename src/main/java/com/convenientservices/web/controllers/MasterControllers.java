@@ -47,7 +47,7 @@ public class MasterControllers {
 
     @GetMapping("/new/{id}")
     public String addNewServiceByUser(Principal principal,
-                                   @PathVariable Long id) {
+                                      @PathVariable Long id) {
         userService.addServiceToUser(principal, id);
         return "redirect:/master";
     }
