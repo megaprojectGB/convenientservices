@@ -46,7 +46,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="selectcity" th:text = "${select}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
-                        <form method="get" th:action = "@{/main}" th:object = "${city}" class="p-2 mb-2 bg-light border-bottom">
+                        <form method="get" th:action = "@{/main}" class="p-2 mb-2 bg-light border-bottom">
                             <input type="search" class="form-control" autocomplete="false" name="city"
                                    placeholder="Type to filter...">
                         </form>
