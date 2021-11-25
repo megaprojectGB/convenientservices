@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:width="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Бронирования - Convenient Services</title>
@@ -105,12 +106,14 @@
 <div class="container">
 
     <div th:unless="${userDTO.isActivated}" class="alert alert-danger m-2" role="alert">
-        Ваш аккаунт не активирован! Ссылка активации отправлена на Ваш электронный адрес. Аккаунт будет заблокирован через 48 часов!
+        Ваш аккаунт не активирован! Ссылка активации отправлена на Ваш электронный адрес. Аккаунт будет заблокирован
+        через 48 часов!
     </div>
     <div class="main">
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-                <a href="/account" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <a href="/account"
+                   class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                     <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap"></use>
                     </svg>
@@ -129,13 +132,13 @@
                     <li>
                         <a href="/orders" class="nav-link active">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="#table"  fill="currentColor"></use>
+                                <use xlink:href="#table" fill="currentColor"></use>
                             </svg>
                             Бронирования
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/favourite" class="nav-link" aria-current="page">
+                        <a href="/favourite" class="nav-link link-dark" aria-current="page">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#joy"></use>
                             </svg>
@@ -143,7 +146,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page">
+                        <a href="#" class="nav-link link-dark" aria-current="page">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#massage"></use>
                             </svg>
@@ -169,9 +172,32 @@
                 </ul>
                 <hr>
             </div>
-            <div class="p-4 bg-light">
-<h1>Страница бронирования</h1>
-
+            <div class="p-4 bg-light" style="width: 820px;">
+                <h3 th:if="${bookings.isEmpty()}">Ваш список бронирований пуст.</h3>
+                <h3 th:unless="${bookings.isEmpty()}">Ваши бронирования</h3>
+                <div  th:each="booking : ${bookings}">
+                    <div class="card mt-2 mb-2">
+                        <h6 class="card-header">Бронь №[[${booking.getId}]] - Дата и время: [[${booking.getDt}]]</h6>
+                        <div class="card-body">
+                            <h5 class="card-title">[[${booking.pointOfServices.category.getName}]] - [[${booking.pointOfServices.getName()}]]</h5>
+                            <p class="card-text">[[${booking.pointOfServices.address.city.getName()}]], [[${booking.pointOfServices.address.getAddress1()}]]</p>
+                            <a th:href="@{/order/delete/{id}(
+                        id = ${booking.getId()}
+                        )}" class="btn btn-primary">Отменить</a>
+                        </div>
+                    </div>
+                </div>
+                <hr th:unless="${oldBookings.isEmpty()}">
+                <h5 th:unless="${oldBookings.isEmpty()}">История бронирований</h5>
+                <div th:each="oldbooking : ${oldBookings}">
+                <div class="card mt-2 mb-2">
+                    <h6 class="card-header">Бронь №[[${oldbooking.getId}]] - Дата и время: [[${oldbooking.getDt}]]</h6>
+                    <div class="card-body">
+                        <h5 class="card-title">[[${oldbooking.pointOfServices.category.getName}]] - [[${oldbooking.pointOfServices.getName()}]]</h5>
+                        <p class="card-text">[[${oldbooking.pointOfServices.address.city.getName()}]], [[${oldbooking.pointOfServices.address.getAddress1()}]]</p>
+                    </div>
+                </div>
+                </div>
             </div>
         </div>
         <div th:insert="~{fragments/menu :: #bottom-menu}"></div>
