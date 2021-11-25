@@ -46,12 +46,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="selectcity" th:text = "${select}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
-                        <form method="get" class="p-2 mb-2 bg-light border-bottom">
-                            <input type="search" class="form-control" autocomplete="false"
+                        <form method="get" th:action = "@{/main}" th:object = "${city}" class="p-2 mb-2 bg-light border-bottom">
+                            <input type="search" class="form-control" autocomplete="false" name="city"
                                    placeholder="Type to filter...">
                         </form>
                         <ul th:each="city : ${cities}" class="list-unstyled mb-0">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{'/main?city=' + ${city.name}}" >
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                 [[${city.name}]]

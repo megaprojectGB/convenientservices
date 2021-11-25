@@ -9,4 +9,5 @@ public interface PointOfServiceServices {
     List<PointOfServices> findAll();
     PointOfServices save(PointOfServices pointOfService);
     PointOfServices findByName (String name);
+    List<PointOfServices> findAllByCity(String city);
 }
