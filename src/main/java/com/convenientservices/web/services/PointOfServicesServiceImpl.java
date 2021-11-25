@@ -4,8 +4,9 @@ import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -31,4 +32,9 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     public PointOfServices findByName (String name) {
         return repository.findByName(name).orElseThrow();
     }
+
+    public List<PointOfServices> findAllByCity (String city) {
+       return repository.findAll().stream().filter(t->t.getAddress().getCity().getName().equals(city)).collect(Collectors.toList());
+    }
 }
+
