@@ -1,23 +1,26 @@
 package com.convenientservices.web.services;
 
-import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
+import com.convenientservices.web.entities.User;
 import com.convenientservices.web.repositories.CityRepository;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
-import lombok.AllArgsConstructor;
+import com.convenientservices.web.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PointOfServicesServiceImpl implements PointOfServiceServices {
-    private PointOfServicesRepository repository;
-    private CityRepository cityRepository;
+    private final PointOfServicesRepository repository;
+    private final UserRepository userRepository;
+    private final PointOfServicesRepository pos;
 
     @Override
     public PointOfServices findById (Long id) throws Exception {
@@ -44,7 +47,19 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
         return repository.findAll().stream().filter(t -> t.getAddress().getCity().getName().equals(city)).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void deleteFavouriteCompanyByUser(Principal principal, Long id) {
+        Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
+        if (userOptional.isEmpty()) {
+            return;
+        }
+        Optional<PointOfServices> pointOfServices = pos.findById(id);
+        if (pointOfServices.isEmpty()) {
+            return;
+        }
 
-
+        userOptional.get().getFavoriteCompanies().remove(pointOfServices.get());
+    }
 }
 
