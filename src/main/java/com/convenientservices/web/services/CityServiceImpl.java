@@ -38,10 +38,10 @@ public class CityServiceImpl implements CityService {
     @Override
     public String findCorrectNameOfCity (String name) {
         if (name != null) {
-            List<City> cities = repository.findAll().stream().filter(city -> city.getName()
-                            .toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT)))
+            List<City> cities = repository.findAll().stream()
+                    .filter(city -> city.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT)))
                     .collect(Collectors.toList());
-            if (cities != null) {
+            if (cities != null && !cities.isEmpty()) {
                 return cities.get(0).getName();
             } else {
                 return null;
