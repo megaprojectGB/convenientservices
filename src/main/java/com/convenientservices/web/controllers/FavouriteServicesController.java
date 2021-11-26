@@ -33,4 +33,11 @@ public class FavouriteServicesController {
         pos.deleteFavouriteCompanyByUser(principal, id);
         return "redirect:/favourite";
     }
+
+    @GetMapping("/add/{id}")
+    public String addFavouriteCompany(Principal principal,
+                                         @PathVariable Long id) {
+        pos.addFavouriteCompanyByUser(principal, id);
+        return "redirect:/main";
+    }
 }

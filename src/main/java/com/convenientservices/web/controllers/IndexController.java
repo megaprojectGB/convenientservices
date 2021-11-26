@@ -17,6 +17,7 @@ public class IndexController {
     public String showIndexPage(Principal principal,
                                 Model model) {
         model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("activePage", "");
         return "index";
     }
 
@@ -24,6 +25,7 @@ public class IndexController {
     public String showAboutPage(Principal principal,
                                 Model model) {
         model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("activePage", "about");
         return "about";
     }
 }
