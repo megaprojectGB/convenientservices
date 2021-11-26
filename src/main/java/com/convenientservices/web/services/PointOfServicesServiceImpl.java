@@ -2,7 +2,6 @@ package com.convenientservices.web.services;
 
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
-import com.convenientservices.web.repositories.CityRepository;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,33 +17,32 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PointOfServicesServiceImpl implements PointOfServiceServices {
-    private final PointOfServicesRepository repository;
+    private final PointOfServicesRepository posRepository;
     private final UserRepository userRepository;
-    private final PointOfServicesRepository pos;
 
     @Override
     public PointOfServices findById (Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+        return posRepository.findById(id).orElseThrow();
     }
 
     @Override
     public List<PointOfServices> findAll () {
-        return repository.findAll();
+        return posRepository.findAll();
     }
 
     @Override
     public PointOfServices save (PointOfServices pointOfServices) {
-        return repository.save(pointOfServices);
+        return posRepository.save(pointOfServices);
     }
 
     @Override
     public PointOfServices findByName (String name) {
-        return repository.findByName(name).orElseThrow();
+        return posRepository.findByName(name).orElseThrow();
     }
 
     @Override
     public List<PointOfServices> findAllByCity (String city) {
-        return repository.findAll().stream().filter(t -> t.getAddress().getCity().getName().equals(city)).collect(Collectors.toList());
+        return posRepository.findAll().stream().filter(t -> t.getAddress().getCity().getName().equals(city)).collect(Collectors.toList());
     }
 
     @Override
@@ -54,12 +52,28 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
         if (userOptional.isEmpty()) {
             return;
         }
-        Optional<PointOfServices> pointOfServices = pos.findById(id);
+        Optional<PointOfServices> pointOfServices = posRepository.findById(id);
         if (pointOfServices.isEmpty()) {
             return;
         }
 
         userOptional.get().getFavoriteCompanies().remove(pointOfServices.get());
+    }
+
+    @Override
+    @Transactional
+    public void addFavouriteCompanyByUser(Principal principal, Long id) {
+        Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
+        if (userOptional.isEmpty()) {
+            return;
+        }
+        Optional<PointOfServices> pointOfServices = posRepository.findById(id);
+        if (pointOfServices.isEmpty()) {
+            return;
+        }
+
+        userOptional.get().getFavoriteCompanies().add(posRepository.findById(id).get());
+
     }
 }
 

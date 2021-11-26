@@ -126,7 +126,7 @@
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                         <div class="d-flex justify-content-between">
                             <strong class="text-gray-dark"> [[${company.name}]]</strong>
-                            <a href="#">Добавить в избранное</a>
+                            <a th:href="@{/favourite/add/{id}(id = ${company.getId()})}">Добавить в избранное</a>
                         </div>
                         <span class="d-block">[[${company.category.getName()}]]</span>
                         <span class="d-block">[[${company.address.city.getName()}]], [[${company.address.getAddress1()}]]</span>
