@@ -1,5 +1,7 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.Exceptions.RecordNotFoundException;
+import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
@@ -22,7 +24,8 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     public PointOfServices findById (Long id) throws Exception {
-        return posRepository.findById(id).orElseThrow();
+        if (posRepository.findById(id).isEmpty()) throw new RecordNotFoundException("No pointOfServices found with id = " + id);
+        return posRepository.findById(id).get();
     }
 
     @Override
@@ -36,8 +39,10 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public PointOfServices findByName (String name) {
-        return posRepository.findByName(name).orElseThrow();
+    public PointOfServices findByName (String name) throws RecordNotFoundException {
+        Optional<PointOfServices> pointOfServices = posRepository.findByName(name);
+        if (pointOfServices.isEmpty()) throw new RecordNotFoundException("No pointOfService found with name " + name);
+        return pointOfServices.get();
     }
 
     @Override
@@ -74,6 +79,20 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
         userOptional.get().getFavoriteCompanies().add(posRepository.findById(id).get());
 
+    }
+
+    @Override
+    public List<PointOfServices> findByCategoryLike(String categoryPattern) throws RecordNotFoundException {
+        List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLike(categoryPattern);
+        if (pointsOfServices.isEmpty()) throw new RecordNotFoundException("No records found for category " + categoryPattern);
+        return pointsOfServices;
+    }
+
+    @Override
+    public List<PointOfServices> findByCategoryLikeAndCity(String categoryPattern, City city) throws RecordNotFoundException {
+        List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLikeAndAddress_CityName(categoryPattern, city.getName());
+        if (pointsOfServices.isEmpty()) throw new RecordNotFoundException("No records found for category " + categoryPattern + " and city " + city.getName());
+        return pointsOfServices;
     }
 }
 
