@@ -35,6 +35,7 @@ public class MainController {
             model.addAttribute("select", "Выберите город");
         }
         model.addAttribute("favourites", userService.getFavourites(principal));
+        model.addAttribute("activePage", "main");
         return "main";
     }
 }

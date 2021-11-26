@@ -12,4 +12,5 @@ public interface PointOfServiceServices {
     PointOfServices findByName (String name);
     List<PointOfServices> findAllByCity(String city);
     void deleteFavouriteCompanyByUser(Principal principal, Long id);
+    void addFavouriteCompanyByUser(Principal principal, Long id);
 }
