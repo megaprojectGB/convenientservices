@@ -1,5 +1,6 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.Exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.Category;
 import com.convenientservices.web.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
@@ -13,8 +14,8 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository repository;
 
     @Override
-    public Category findById (Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+    public Category findById (Long id) throws RecordNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Category with id = " + id + "not found"));
     }
 
     @Override
@@ -29,6 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findByName (String name) {
-        return repository.findByName(name).orElseThrow();
+        return repository.findByName(name).orElse(null);
     }
 }

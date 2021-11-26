@@ -1,5 +1,6 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.Exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.Category;
 
 import java.util.List;

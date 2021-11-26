@@ -1,5 +1,7 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.Exceptions.CityNotFoundException;
+import com.convenientservices.web.Exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.repositories.CityRepository;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,8 +19,8 @@ public class CityServiceImpl implements CityService {
     private CityRepository repository;
 
     @Override
-    public City findById (Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+    public City findById (Long id) throws CityNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new CityNotFoundException("City with id = " + id + " not found."));
     }
 
     @Override
@@ -31,8 +34,9 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public City findByName (String name) {
-        return repository.findByName(name).orElseThrow();
+    public City findByName (String name) throws CityNotFoundException {
+
+        return repository.findByName(name).orElseThrow(() -> new CityNotFoundException("City with name = " + name + " not found."));
     }
 
     @Override
