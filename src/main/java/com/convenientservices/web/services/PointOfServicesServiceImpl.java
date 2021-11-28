@@ -77,6 +77,14 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
             return;
         }
 
+        List<PointOfServices> pointOfServicesList = userOptional.get().getFavoriteCompanies();
+        for (int i = 0; i < pointOfServicesList.size(); i++){
+            if (pointOfServicesList.get(i).getId() != id){
+                continue;
+            }else {
+                return;
+            }
+        }
         userOptional.get().getFavoriteCompanies().add(posRepository.findById(id).get());
 
     }

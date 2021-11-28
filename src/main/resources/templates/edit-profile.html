@@ -170,39 +170,87 @@
                 <hr>
             </div>
             <div class="p-4 bg-light" style="width: 820px;">
-                <h3>Ваши персональные данные: </h3>
+                <h3>Измените ваши персональные данные: </h3>
                 <table class="table table-hover table-borderless">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Ваши персональные данные</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Имя: </th>
-                        <td>[[${userDTO.firstName}]]</td>
+                        <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">     Имя</span>
+                            <input type="text" class="form-control" th:placeholder="${userDTO.getFirstName()}"
+                                   aria-label="email" aria-describedby="addon-wrapping">
+                        </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Фамилия: </th>
-                        <td>[[${userDTO.lastName}]]</td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2">Фамилия</span>
+                                <input type="text" class="form-control" th:placeholder="${userDTO.getLastName()}"
+                                       aria-label="email" aria-describedby="addon-wrapping">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Логин: </th>
-                        <td colspan="2">[[${userDTO.userName}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">Статус: </th>
-                        <td colspan="2">[[${userDTO.status}]]</td>
+                        <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Email</span>
+                            <input type="text" class="form-control" th:placeholder="${userDTO.getEmail()}"
+                                           aria-label="email" aria-describedby="addon-wrapping">
+                        </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Email: </th>
-                        <td colspan="2">[[${userDTO.email}]]</td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon4">Phone</span>
+                                <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
+                                       aria-label="phone" aria-describedby="addon-wrapping">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Phone: </th>
-                        <td colspan="2">[[${userDTO.phone}]]</td>
+                    <td>
+                        <div th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Тип аккаунта</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected value="2">Client</option>
+                                <option value="1">Business</option>
+                                <option value="3">Master</option>
+                            </select>
+                        </div>
+                    </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
+                            Изменить Пароль
+                            </button>
+
+                            <div id="demo" class="collapse in">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon6">Phone</span>
+                                    <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
+                                           aria-label="phone" aria-describedby="addon-wrapping">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon5">Phone</span>
+                                    <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
+                                           aria-label="phone" aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
                     <tr style="display:none;">
                         <th scope="row">Id: </th>
                         <td colspan="2">[[${userDTO.id}]]</td>
@@ -210,8 +258,7 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-<!--                    <button href="/account/edit" class="btn btn-primary" type="button">Редактировать</button>-->
-                    <a href="/account/edit" class="btn btn-primary active" type="button">Редактировать</a>
+                    <button class="btn btn-primary" type="button">Редактировать</button>
                 </div>
 
             </div>
