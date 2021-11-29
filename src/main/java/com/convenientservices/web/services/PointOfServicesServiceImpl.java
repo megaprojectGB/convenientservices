@@ -126,5 +126,17 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
                 .orElse(null);
         return posRepository.findAll(specification);
     }
+
+    @Override
+    public List<PointOfServices> findAllByUserBoss(Principal principal) {
+        User user = userRepository.findUserByUserName(principal.getName()).orElse(null);
+        return posRepository.findAllByBoss(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserPos(Long id) {
+
+    }
 }
 

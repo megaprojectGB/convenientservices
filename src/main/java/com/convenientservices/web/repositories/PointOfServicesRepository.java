@@ -2,6 +2,7 @@ package com.convenientservices.web.repositories;
 
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
+import com.convenientservices.web.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,5 @@ public interface PointOfServicesRepository extends JpaRepository<PointOfServices
     List<PointOfServices> findByCategoryNameAndAddress_City(String categoryName, City city);
     List<PointOfServices> findByCategoryNameLike(String categoryPattern);
     List<PointOfServices> findAllByAddress_City(City city);
+    List<PointOfServices> findAllByBoss(User user);
 }
