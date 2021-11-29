@@ -1,6 +1,6 @@
 package com.convenientservices.web.services;
 
-import com.convenientservices.web.Exceptions.CityNotFoundException;
+import com.convenientservices.web.exceptions.CityNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.repositories.CityRepository;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class CityServiceImpl implements CityService {
     private CityRepository repository;
 
     @Override
-    public City findById (Long id) throws CityNotFoundException {
+    public City findById (Integer id) throws CityNotFoundException {
         return repository.findById(id).orElseThrow(() -> new CityNotFoundException("City with id = " + id + " not found."));
     }
 

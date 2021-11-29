@@ -1,6 +1,6 @@
 package com.convenientservices.web.services;
 
-import com.convenientservices.web.Exceptions.RecordNotFoundException;
+import com.convenientservices.web.exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
@@ -57,6 +57,11 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
+    public List<PointOfServices> findAllByCity(City city) {
+        return posRepository.findAllByAddress_City(city);
+    }
+
+    @Override
     @Transactional
     public void deleteFavouriteCompanyByUser (Principal principal, Long id) {
         Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
@@ -97,7 +102,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     public List<PointOfServices> findByCategoryLikeAndCity (String categoryPattern, City city) throws RecordNotFoundException {
-        List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLikeAndAddress_CityName(categoryPattern, city.getName());
+        List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLikeAndAddress_City(categoryPattern, city);
         if (pointsOfServices.isEmpty())
             throw new RecordNotFoundException("No records found for category " + categoryPattern + " and city " + city.getName());
         return pointsOfServices;
