@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title>Избранные сервисы - Convenient Services</title>
+    <title>Бизнес настройки - Convenient Services</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
 </head>
 
@@ -141,9 +141,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link active" aria-current="page">
+                        <a href="/favourite" class="nav-link link-dark" aria-current="page">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="#joy" fill="currentColor"></use>
+                                <use xlink:href="#joy"></use>
                             </svg>
                             Избранные сервисы
                         </a>
@@ -159,15 +159,15 @@
                     <li th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_MASTER')}">
                         <a href="/master" class="nav-link link-dark">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="#speedometer2" fill="currentColor"></use>
+                                <use xlink:href="#speedometer2"></use>
                             </svg>
                             Мастер настройки
                         </a>
                     </li>
                     <li th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_USER')}">
-                        <a href="/business" class="nav-link link-dark">
+                        <a href="/business" class="nav-link active">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="#business"></use>
+                                <use xlink:href="#business" fill="currentColor"></use>
                             </svg>
                             Бизнес настройки
                         </a>
@@ -175,47 +175,28 @@
                 </ul>
                 <hr>
             </div>
-            <div th:unless="${companies.isEmpty()}" class="p-4 bg-light" style="width: 820px;">
-                <h3>Ваши избранные компании: </h3>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Название компании</th>
-                        <th scope="col">Категория</th>
-                        <th scope="col">Город</th>
-                        <th scope="col">Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="company : ${companies}">
-                        <th scope="row">[[${company.id}]]</th>
-                        <td>[[${company.name}]]</td>
-                        <td>[[${company.category.getName()}]]</td>
-                        <td>[[${company.address.city.getName()}]]</td>
-                        <td><a class="dropdown-item d-flex gap-2 align-items-center" th:href="@{/favourite/delete/{id}(
-                            id = ${company.getId()}
-                            )}">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#delete"></use>
-                            </svg>
-                            Удалить</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="/main" class="btn btn-primary justify-content-md-end">Добавить</a>
+            <div class="p-4 bg-light" style="width: 820px;">
+                <h3 th:if="${pointofservices.isEmpty()}">Ваш список точек обслуживания пуст.</h3>
+                <h3 th:unless="${pointofservices.isEmpty()}">Ваши точки обслуживания</h3>
+                <div  th:each="pos : ${pointofservices}">
+                    <div class="card mt-2 mb-2 shadow">
+                        <h6 class="card-header">Категория: [[${pos.category.getName()}]]</h6>
+                        <div class="card-body">
+                            <h5 class="card-title">Точка: [[${pos.getName()}]]</h5>
+                            <p class="card-text">Адрес: [[${pos.address.city.getName()}]], [[${pos.address.getAddress1()}]]</p>
+                            <a th:href="@{/business/delete/{id}(
+                        id = ${pos.getId()}
+                        )}" class="btn btn-outline-danger">Удалить</a>
+                            <a th:href="@{/business/edit/{id}(
+                        id = ${pos.getId()}
+                        )}" class="btn btn-primary">Редактировать</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div th:if="${companies.isEmpty()}" class="p-4 bg-light">
-                <h3>Ваш список избранных компаний пуст! </h3>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="/main" class="btn btn-primary justify-content-md-end">Добавить</a>
+                    <a href="/business/new" class="btn btn-primary justify-content-md-end">Добавить новую точку</a>
                 </div>
             </div>
-
         </div>
         <div th:insert="~{fragments/menu :: #bottom-menu}"></div>
     </div>

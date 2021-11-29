@@ -61,4 +61,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<Service> masterServices;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "master_pos",
+            joinColumns = @JoinColumn(name = "master_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "point_of_services_id"))
+    private List<PointOfServices> masterPos;
 }

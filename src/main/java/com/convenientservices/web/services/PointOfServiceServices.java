@@ -1,6 +1,5 @@
 package com.convenientservices.web.services;
 
-import com.convenientservices.web.Exceptions.CityNotFoundException;
 import com.convenientservices.web.Exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
@@ -18,7 +17,8 @@ public interface PointOfServiceServices {
     List<PointOfServices> findAllByCity(String city);
     void deleteFavouriteCompanyByUser(Principal principal, Long id);
     void addFavouriteCompanyByUser(Principal principal, Long id);
-
+    List<PointOfServices> findAllByUserBoss(Principal principal);
     List<PointOfServices> findByCategoryLike(String categoryPattern) throws RecordNotFoundException;
     List<PointOfServices> findByCategoryLikeAndCity(String categoryPattern, City city) throws RecordNotFoundException;
+    void deleteUserPos(Long id);
 }
