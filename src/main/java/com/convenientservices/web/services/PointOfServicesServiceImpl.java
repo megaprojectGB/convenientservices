@@ -6,12 +6,17 @@ import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.UserRepository;
+import com.convenientservices.web.services.spec.PosSpec;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,7 +29,8 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     public PointOfServices findById (Long id) throws Exception {
-        if (posRepository.findById(id).isEmpty()) throw new RecordNotFoundException("No pointOfServices found with id = " + id);
+        if (posRepository.findById(id).isEmpty())
+            throw new RecordNotFoundException("No pointOfServices found with id = " + id);
         return posRepository.findById(id).get();
     }
 
@@ -52,7 +58,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     @Transactional
-    public void deleteFavouriteCompanyByUser(Principal principal, Long id) {
+    public void deleteFavouriteCompanyByUser (Principal principal, Long id) {
         Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
         if (userOptional.isEmpty()) {
             return;
@@ -67,7 +73,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     @Transactional
-    public void addFavouriteCompanyByUser(Principal principal, Long id) {
+    public void addFavouriteCompanyByUser (Principal principal, Long id) {
         Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
         if (userOptional.isEmpty()) {
             return;
@@ -82,17 +88,38 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public List<PointOfServices> findByCategoryLike(String categoryPattern) throws RecordNotFoundException {
+    public List<PointOfServices> findByCategoryLike (String categoryPattern) throws RecordNotFoundException {
         List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLike(categoryPattern);
-        if (pointsOfServices.isEmpty()) throw new RecordNotFoundException("No records found for category " + categoryPattern);
+        if (pointsOfServices.isEmpty())
+            throw new RecordNotFoundException("No records found for category " + categoryPattern);
         return pointsOfServices;
     }
 
     @Override
-    public List<PointOfServices> findByCategoryLikeAndCity(String categoryPattern, City city) throws RecordNotFoundException {
+    public List<PointOfServices> findByCategoryLikeAndCity (String categoryPattern, City city) throws RecordNotFoundException {
         List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLikeAndAddress_CityName(categoryPattern, city.getName());
-        if (pointsOfServices.isEmpty()) throw new RecordNotFoundException("No records found for category " + categoryPattern + " and city " + city.getName());
+        if (pointsOfServices.isEmpty())
+            throw new RecordNotFoundException("No records found for category " + categoryPattern + " and city " + city.getName());
         return pointsOfServices;
+    }
+
+    @Override
+    public List<PointOfServices> findAll (Map<String, String> params) {
+        final Specification<PointOfServices> specification = params.entrySet().stream()
+                .filter(it -> StringUtils.hasText(it.getValue()))
+                .map(it -> {
+                    if ("city".equals(it.getKey())) {
+                        return PosSpec.cityEq(it.getValue());
+                    }
+                    if ("category".equals(it.getKey())) {
+                        return PosSpec.categoryEq(it.getValue());
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .reduce(Specification::and)
+                .orElse(null);
+        return posRepository.findAll(specification);
     }
 }
 

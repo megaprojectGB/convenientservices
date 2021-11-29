@@ -6,8 +6,9 @@ import com.convenientservices.web.entities.Category;
 import java.util.List;
 
 public interface CategoryService {
-    Category findById (Long id) throws Exception;
+    Category findById (Long id) throws Exception, RecordNotFoundException;
     List<Category> findAll();
     Category save(Category category);
     Category findByName(String name);
+    String findCorrectNameOfCategory (String name);
 }

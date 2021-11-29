@@ -44,14 +44,14 @@
         <div>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="selectcity" th:text = "${select}"href="#"></a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="selectcity" name="city" th:text = "${select}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
                         <form method="get" th:action = "@{/main}" class="p-2 mb-2 bg-light border-bottom">
                             <input type="search" class="form-control" autocomplete="false" name="city"
                                    placeholder="Type to filter...">
                         </form>
                         <ul th:each="city : ${cities}" class="list-unstyled mb-0">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name})}">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name}, category = ${selectcategory})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                 [[${city.name}]]
@@ -65,14 +65,14 @@
         <div>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Выберите категорию</a>
+                    <a class="nav-link dropdown-toggle"  data-toggle="dropdown" id="selecеtcategory" name="category" th:text = "${selectcategory}"href="#"></a>
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
-                        <form class="p-2 mb-2 bg-light border-bottom">
-                            <input type="search" class="form-control" autocomplete="false"
+                        <form class="p-2 mb-2 bg-light border-bottom" th:action = "@{/main}" method="get">
+                            <input type="search" class="form-control" autocomplete="false" name="category"
                                    placeholder="Type to filter...">
                         </form>
                         <ul th:each="category : ${categories}" class="list-unstyled mb-0">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(category = ${category.name}, city = ${select})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                 [[${category.name}]]
