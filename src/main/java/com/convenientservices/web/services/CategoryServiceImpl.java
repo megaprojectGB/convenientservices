@@ -2,7 +2,6 @@ package com.convenientservices.web.services;
 
 import com.convenientservices.web.exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.Category;
-import com.convenientservices.web.entities.City;
 import com.convenientservices.web.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
