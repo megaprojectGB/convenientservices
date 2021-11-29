@@ -26,7 +26,9 @@ public class MainController {
 
     @GetMapping()
     public String showMainPage (Principal principal,
-                                Model model, @Param(value = "selectcity") String city, @Param(value = "category") String category) {
+                                Model model,
+                                @Param(value = "selectcity") String city,
+                                @Param(value = "category") String category) {
         Map<String, String> params = new HashMap<>();
         String selectCity = cityService.findCorrectNameOfCity(city);
         String selectCategory = categoryService.findCorrectNameOfCategory(category);

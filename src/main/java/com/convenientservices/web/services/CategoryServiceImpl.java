@@ -1,6 +1,6 @@
 package com.convenientservices.web.services;
 
-import com.convenientservices.web.Exceptions.RecordNotFoundException;
+import com.convenientservices.web.exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.Category;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.repositories.CategoryRepository;
