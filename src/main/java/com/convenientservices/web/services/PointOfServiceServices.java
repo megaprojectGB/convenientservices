@@ -7,10 +7,12 @@ import com.convenientservices.web.entities.PointOfServices;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 public interface PointOfServiceServices {
     PointOfServices findById (Long id) throws Exception;
     List<PointOfServices> findAll();
+    List<PointOfServices> findAll(Map<String, String> param);
     PointOfServices save(PointOfServices pointOfService);
     PointOfServices findByName (String name) throws RecordNotFoundException;
     List<PointOfServices> findAllByCity(String city);

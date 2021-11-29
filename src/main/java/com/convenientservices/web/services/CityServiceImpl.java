@@ -1,16 +1,12 @@
 package com.convenientservices.web.services;
 
 import com.convenientservices.web.Exceptions.CityNotFoundException;
-import com.convenientservices.web.Exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.repositories.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Supplier;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
