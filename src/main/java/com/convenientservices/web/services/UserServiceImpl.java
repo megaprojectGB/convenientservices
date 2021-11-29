@@ -146,4 +146,34 @@ public class UserServiceImpl implements UserService {
 
         userOptional.get().getMasterServices().add(serviceOptional.get());
     }
+
+    @Override
+    @Transactional
+    public String saveEditUser(Principal principal, User user, String role, String matchingPassword) {
+        if (user.getFirstName() == null){
+            user.setFirstName(userRepository.findUserByUserName(principal.getName()).get().getFirstName());
+        }
+        if (user.getFirstName() == null){
+            user.setLastName(userRepository.findUserByUserName(principal.getName()).get().getLastName());
+        }
+        if (user.getPassword() != null) {
+            if (!Utils.passwordMatching(user.getPassword(), matchingPassword)) {
+                return PASSWORD_DOES_NOT_MATCH;
+            }
+        }
+        if(user.getEmail() != null) {
+            if (userRepository.findFirstByEmail(user.getEmail()).isPresent()) {
+                return EMAIL_EXIST;
+            }
+        }
+        if (user.getPhone() != null) {
+            if (userRepository.findFirstByPhone(user.getPhone()).isPresent()) {
+                return PHONE_EXIST;
+            }
+        }
+        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return SUCCESS;
+    }
 }

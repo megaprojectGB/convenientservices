@@ -169,12 +169,14 @@
                 </ul>
                 <hr>
             </div>
+<!--            <div th:object="${user}" class="p-4 bg-light" style="width: 820px;">-->
             <div class="p-4 bg-light" style="width: 820px;">
+                <form th:action="@{/edit}" method="post" th:object="${user}">
                 <h3>Измените ваши персональные данные: </h3>
                 <table class="table table-hover table-borderless">
                     <thead>
                     <tr>
-                        <th scope="col">Ваши персональные данные</th>
+                        <th scope="col"> Ваши персональные данные</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -182,7 +184,7 @@
                         <td>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">     Имя</span>
-                            <input type="text" class="form-control" th:placeholder="${userDTO.getFirstName()}"
+                            <input th:field="*{firstName}" type="text" class="form-control" th:placeholder="${userDTO.getFirstName()}"
                                    aria-label="email" aria-describedby="addon-wrapping">
                         </div>
                         </td>
@@ -191,7 +193,7 @@
                         <td>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon2">Фамилия</span>
-                                <input type="text" class="form-control" th:placeholder="${userDTO.getLastName()}"
+                                <input th:field="*{lastName}" type="text" class="form-control" th:placeholder="${userDTO.getLastName()}"
                                        aria-label="email" aria-describedby="addon-wrapping">
                             </div>
                         </td>
@@ -202,32 +204,62 @@
                         <td>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3">Email</span>
-                            <input type="text" class="form-control" th:placeholder="${userDTO.getEmail()}"
+                            <input th:field="*{email}" type="email" class="form-control" id="email"
+                                   th:placeholder="${userDTO.getEmail()}"
                                            aria-label="email" aria-describedby="addon-wrapping">
                         </div>
+                            <div th:if="${answer.equalsIgnoreCase('email')}"
+                                 class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                     aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                </svg>
+                                <div>
+                                    Пользователь с таким Email уже существует!
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon4">Phone</span>
-                                <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
+                                <input th:field="*{phone}" type="text" class="form-control" id="phone"
+                                       th:placeholder="${userDTO.getPhone()}"
                                        aria-label="phone" aria-describedby="addon-wrapping">
+                            </div>
+                            <div th:if="${answer.equalsIgnoreCase('phone')}"
+                                 class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                     aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                </svg>
+                                <div>
+                                    Пользователь с таким телефоном уже существует!
+                                </div>
                             </div>
                         </td>
                     </tr>
                     <tr>
                     <td>
-                        <div th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Тип аккаунта</label>
-                            </div>
-                            <select class="custom-select" id="inputGroupSelect01">
+                        <div th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" class="col-md-5">
+                            <label for="role" class="form-label">Выберите тип аккаунта</label>
+                            <select th:field="*{roles}" class="form-select" aria-label="User role" id="role" name="role">
                                 <option selected value="2">Client</option>
                                 <option value="1">Business</option>
                                 <option value="3">Master</option>
                             </select>
                         </div>
+<!--                        <div th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" class="input-group mb-3">-->
+<!--                            <div class="input-group-prepend">-->
+<!--                                <label class="input-group-text" for="inputGroupSelect01">Тип аккаунта</label>-->
+<!--                            </div>-->
+<!--                            <select class="custom-select" id="inputGroupSelect01">-->
+<!--                                <option selected value="2">Client</option>-->
+<!--                                <option value="1">Business</option>-->
+<!--                                <option value="3">Master</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
                     </td>
                     </tr>
                     <tr>
@@ -237,15 +269,28 @@
                             </button>
 
                             <div id="demo" class="collapse in">
+
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon6">Phone</span>
-                                    <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
-                                           aria-label="phone" aria-describedby="addon-wrapping">
+                                    <span class="input-group-text" id="basic-addon6">password</span>
+                                    <input th:field="*{password}" type="password" class="form-control" id="password"
+                                     placeholder=Password
+                                           aria-label="password" aria-describedby="addon-wrapping">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon5">Phone</span>
-                                    <input type="text" class="form-control" th:placeholder="${userDTO.getPhone()}"
-                                           aria-label="phone" aria-describedby="addon-wrapping">
+                                    <span class="input-group-text" id="matchingPassword">password</span>
+                                    <input  type="password"
+                                           class="form-control" placeholder="matchingPassword"
+                                           aria-label="password" aria-describedby="addon-wrapping">
+                                </div>
+                                <div th:if="${answer.equalsIgnoreCase('password')}"
+                                     class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                        <use xlink:href="#bug-error"/>
+                                    </svg>
+                                    <div>
+                                        Введенные пароли не совпадают!
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -258,8 +303,12 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary" type="button">Редактировать</button>
+<!--                    <button class="btn btn-primary" type="button">Редактировать</button>-->
+<!--                    <a href="/account/edit/save" class="btn btn-primary active" type="button">Сохранить</a>-->
+                    <button href="/account/edit/save" class="my-4 w-100 btn btn-primary btn-lg"
+                            type="submit">Изменить</button>
                 </div>
+                </form>
 
             </div>
         </div>
