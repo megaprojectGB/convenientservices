@@ -30,7 +30,6 @@ public class MainController {
         Map<String, String> params = new HashMap<>();
         String selectCity = cityService.findCorrectNameOfCity(city);
         String selectCategory = categoryService.findCorrectNameOfCategory(category);
-        System.out.println(category);
         params.put("city", selectCity);
         params.put("category", selectCategory);
         model.addAttribute("username", userService.getFIO(principal));
