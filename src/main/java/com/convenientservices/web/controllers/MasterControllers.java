@@ -4,9 +4,7 @@ import com.convenientservices.web.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -15,7 +13,6 @@ import java.security.Principal;
 @RequestMapping("/master")
 public class MasterControllers {
     private final UserService userService;
-    private final CategoryService categoryService;
     private final ServiceService serviceService;
     private final ServiceCategoryService serviceCategoryService;
 
@@ -50,5 +47,22 @@ public class MasterControllers {
                                       @PathVariable Long id) {
         userService.addServiceToUser(principal, id);
         return "redirect:/master";
+    }
+
+    @GetMapping("/create")
+    public String createServiceByUser(Principal principal,
+                                      Model model) {
+        model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
+        model.addAttribute("categories", serviceCategoryService.findAll());
+        return "create_service";
+    }
+
+    @PostMapping("/create")
+    public String saveNewServiceByUser(@RequestParam String name,
+                                       @RequestParam String duration,
+                                       @RequestParam String categoryId) {
+        serviceService.createNewCategoryService(name, duration, categoryId);
+        return "redirect:/master/new";
     }
 }

@@ -10,25 +10,25 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ServiceCategoryServiceImpl implements ServiceCategoryService {
-    private ServiceCategoryRepository repository;
+    private ServiceCategoryRepository serviceCategoryRepository;
 
     @Override
     public ServiceCategory findById (Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+        return serviceCategoryRepository.findById(id).orElseThrow();
     }
 
     @Override
     public List<ServiceCategory> findAll () {
-        return repository.findAll();
+        return serviceCategoryRepository.findAll();
     }
 
     @Override
     public ServiceCategory save (ServiceCategory serviceCategory) {
-        return repository.save(serviceCategory);
+        return serviceCategoryRepository.save(serviceCategory);
     }
 
     @Override
     public ServiceCategory findByName (String name) {
-        return repository.findByName(name).orElseThrow();
+        return serviceCategoryRepository.findByName(name).orElseThrow();
     }
 }

@@ -13,4 +13,6 @@ public interface ServiceService {
     Service save(Service service);
 
     Optional<Service> findByName(String name);
+
+    void createNewCategoryService(String name, String duration, String categoryId);
 }
