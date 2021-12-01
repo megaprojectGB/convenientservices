@@ -21,5 +21,9 @@ public interface PointOfServiceServices {
     List<PointOfServices> findAllByUserBoss(Principal principal);
     List<PointOfServices> findByCategoryLike(String categoryPattern) throws RecordNotFoundException;
     List<PointOfServices> findByCategoryLikeAndCity(String categoryPattern, City city) throws RecordNotFoundException;
+    List<PointOfServices> findByNameLikeAndCategoryNameAndCityName(String posNamePattern,
+                                                                   String categoryName,
+                                                                   String cityName) throws RecordNotFoundException;
+    List<PointOfServices> findAllByNameLike(String posNamePattern);
     void deleteUserPos(Long id);
 }

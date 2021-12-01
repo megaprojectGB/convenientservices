@@ -4,6 +4,17 @@
 <head>
     <title>Выбор организации - Convenient Services</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
+    <script async>
+        function submitForm(category, city){
+            let url = '/main?city=';
+            url += city;
+            url += '&category=';
+            url += category;
+            url += '&filter=';
+            url += document.search.filter;
+            window.location.href = url;
+        }
+    </script>
 </head>
 
 <body class="bg-light">
@@ -84,8 +95,8 @@
         </div>
 
         <div>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form name="search" class="d-flex" method="get">
+                <input name="pos" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary" type="submit">Search</button>
             </form>
         </div>
