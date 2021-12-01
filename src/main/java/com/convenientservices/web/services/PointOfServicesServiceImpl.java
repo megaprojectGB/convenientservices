@@ -109,6 +109,22 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
+    public List<PointOfServices> findByNameLikeAndCategoryNameAndCityName(String posNamePattern, String categoryName, String cityName) throws RecordNotFoundException {
+        List<PointOfServices> pointsOfServices = posRepository
+                .findAllByNameLikeAndCategoryNameAndAddress_CityName(posNamePattern, categoryName, cityName);
+        if (pointsOfServices.isEmpty())
+            throw new RecordNotFoundException("No records found for category " + categoryName
+                    + " and city " + cityName
+                    + " and pointOf Services like" + posNamePattern);
+        return pointsOfServices;
+    }
+
+    @Override
+    public List<PointOfServices> findAllByNameLike(String posNamePattern) {
+        return posRepository.findAllByNameContainingIgnoreCase(posNamePattern);
+    }
+
+    @Override
     public List<PointOfServices> findAll (Map<String, String> params) {
         final Specification<PointOfServices> specification = params.entrySet().stream()
                 .filter(it -> StringUtils.hasText(it.getValue()))

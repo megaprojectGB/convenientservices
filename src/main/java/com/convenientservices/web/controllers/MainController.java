@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -28,10 +27,12 @@ public class MainController {
     public String showMainPage (Principal principal,
                                 Model model,
                                 @Param(value = "selectcity") String city,
-                                @Param(value = "category") String category) {
+                                @Param(value = "category") String category,
+                                @Param(value = "pos") String pos) {
         Map<String, String> params = new HashMap<>();
         String selectCity = cityService.findCorrectNameOfCity(city);
         String selectCategory = categoryService.findCorrectNameOfCategory(category);
+
         params.put("city", selectCity);
         params.put("category", selectCategory);
         model.addAttribute("username", userService.getFIO(principal));
@@ -49,9 +50,16 @@ public class MainController {
         } else {
             model.addAttribute("selectcategory", "Выберите категорию");
         }
-        model.addAttribute("companies", pointOfServiceServices.findAll(params));
+
+        if (pos != null) {
+            model.addAttribute("companies", pointOfServiceServices.findAllByNameLike(pos));
+        } else {
+            model.addAttribute("companies", pointOfServiceServices.findAll(params));
+        }
+
         model.addAttribute("favourites", userService.getFavourites(principal));
         model.addAttribute("activePage", "main");
         return "main";
     }
+
 }

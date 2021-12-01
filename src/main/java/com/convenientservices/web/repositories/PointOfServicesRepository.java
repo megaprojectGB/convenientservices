@@ -18,4 +18,6 @@ public interface PointOfServicesRepository extends JpaRepository<PointOfServices
     List<PointOfServices> findByCategoryNameLike(String categoryPattern);
     List<PointOfServices> findAllByAddress_City(City city);
     List<PointOfServices> findAllByBoss(User user);
+    List<PointOfServices> findAllByNameLikeAndCategoryNameAndAddress_CityName(String posNamePattern, String categoryName, String cityName);
+    List<PointOfServices> findAllByNameContainingIgnoreCase(String posNamePattern);
 }
