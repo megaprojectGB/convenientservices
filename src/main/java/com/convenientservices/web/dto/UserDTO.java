@@ -1,7 +1,6 @@
 package com.convenientservices.web.dto;
 
 import com.convenientservices.web.entities.PointOfServices;
-import com.convenientservices.web.entities.Service;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,6 @@ public class UserDTO {
     private String email;
     private String role;
     private List<PointOfServices> favoriteCompanies;
-    private List<Service> masterServices;
+    private List<ServiceDto> masterServices;
 }
 

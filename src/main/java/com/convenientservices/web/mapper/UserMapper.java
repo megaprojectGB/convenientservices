@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = BooleanYNMapper.class)
+@Mapper(uses = {BooleanYNMapper.class, TimeToStringMapper.class})
 public interface UserMapper {
     UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
