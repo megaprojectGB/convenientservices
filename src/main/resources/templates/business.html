@@ -183,9 +183,6 @@
                         <div class="card-body">
                             <h5 class="card-title">Точка: [[${pos.getName()}]]</h5>
                             <p class="card-text">Адрес: [[${pos.address.city.getName()}]], [[${pos.address.getAddress1()}]]</p>
-                            <a th:href="@{/business/delete/{id}(
-                        id = ${pos.getId()}
-                        )}" class="btn btn-outline-danger">Удалить</a>
                             <a th:href="@{/business/edit/{id}(
                         id = ${pos.getId()}
                         )}" class="btn btn-primary">Редактировать</a>
