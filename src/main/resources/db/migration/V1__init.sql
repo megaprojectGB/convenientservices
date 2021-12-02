@@ -65,7 +65,7 @@ CREATE TABLE "service" (
                            "id" SERIAL PRIMARY KEY,
                            "service_category_id" int,
                            "name" VARCHAR(255),
-                           "duration" interval
+                           "duration" BIGINT
 );
 
 CREATE TABLE "service_properties" (

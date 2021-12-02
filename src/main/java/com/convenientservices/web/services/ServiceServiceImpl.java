@@ -40,7 +40,7 @@ public class ServiceServiceImpl implements ServiceService {
         Service service = new Service();
         ServiceCategory category = serviceCategoryRepository.findById(Long.parseLong(categoryId)).orElse(null);
         service.setName(name);
-        // TODO: 30.11.2021 time -> interval to Postgres
+        service.setDuration(Long.parseLong(duration));
         service.setCategory(category);
         serviceRepository.save(service);
     }

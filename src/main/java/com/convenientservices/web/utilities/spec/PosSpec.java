@@ -1,4 +1,4 @@
-package com.convenientservices.web.services.spec;
+package com.convenientservices.web.utilities.spec;
 
 
 import com.convenientservices.web.entities.PointOfServices;

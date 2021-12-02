@@ -6,7 +6,7 @@ import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.UserRepository;
-import com.convenientservices.web.services.spec.PosSpec;
+import com.convenientservices.web.utilities.spec.PosSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
