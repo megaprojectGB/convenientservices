@@ -25,5 +25,5 @@ public interface PointOfServiceServices {
                                                                    String categoryName,
                                                                    String cityName) throws RecordNotFoundException;
     List<PointOfServices> findAllByNameLike(String posNamePattern);
-    void deleteUserPos(Long id);
+    void deletePosByUser(Principal principal, Long id);
 }

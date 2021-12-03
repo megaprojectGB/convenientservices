@@ -25,5 +25,6 @@ public class UserDTO {
     private String role;
     private List<PointOfServices> favoriteCompanies;
     private List<ServiceDto> masterServices;
+    private List<PointOfServices> masterPos;
 }
 

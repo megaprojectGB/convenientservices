@@ -156,9 +156,18 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    @Transactional
-    public void deleteUserPos(Long id) {
-
+    public void deletePosByUser(Principal principal, Long id) {
+        Optional<User> optional = userRepository.findUserByUserName(principal.getName());
+        if (optional.isEmpty()) {
+            return;
+        }
+        User user = optional.get();
+        Optional<PointOfServices> pos = posRepository.findById(id);
+        if (pos.isEmpty()) {
+            return;
+        }
+        user.getMasterPos().remove(pos.get());
+        userRepository.save(user);
     }
 }
 
