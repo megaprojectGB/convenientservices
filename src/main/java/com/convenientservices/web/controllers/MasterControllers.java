@@ -13,6 +13,7 @@ import java.security.Principal;
 @RequestMapping("/master")
 public class MasterControllers {
     private final UserService userService;
+    private final PointOfServiceServices pointOfServiceServices;
     private final ServiceService serviceService;
     private final ServiceCategoryService serviceCategoryService;
 
@@ -22,6 +23,7 @@ public class MasterControllers {
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
+        model.addAttribute("pointofservice", userService.getUserDTOByUserName(principal).getMasterPos());
         return "master";
     }
 
@@ -29,6 +31,13 @@ public class MasterControllers {
     public String deleteServiceByUser(Principal principal,
                                       @PathVariable Long id) {
         userService.deleteServiceByUser(principal, id);
+        return "redirect:/master";
+    }
+
+    @GetMapping("/delete/pos/{id}")
+    public String deletePosByMaster(Principal principal,
+                                    @PathVariable Long id) {
+        pointOfServiceServices.deletePosByUser(principal, id);
         return "redirect:/master";
     }
 

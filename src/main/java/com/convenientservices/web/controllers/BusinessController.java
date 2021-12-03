@@ -16,7 +16,7 @@ import java.security.Principal;
 @RequestMapping("/business")
 public class BusinessController {
     private final UserService userService;
-    private final PointOfServiceServices pos;
+    private final PointOfServiceServices pointOfServiceServices;
 
     @GetMapping()
     public String showBusinessSettingsPage(Principal principal,
@@ -24,7 +24,7 @@ public class BusinessController {
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
-        model.addAttribute("pointofservices", pos.findAllByUserBoss(principal));
+        model.addAttribute("pointofservices", pointOfServiceServices.findAllByUserBoss(principal));
         return "business";
     }
 
@@ -32,11 +32,11 @@ public class BusinessController {
     public String deleteUserPos(Principal principal,
                                 Model model,
                                 @PathVariable Long id) {
-        pos.deleteUserPos(id);
+
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
-        model.addAttribute("pointofservices", pos.findAllByUserBoss(principal));
+        model.addAttribute("pointofservices", pointOfServiceServices.findAllByUserBoss(principal));
         return "business";
     }
 
