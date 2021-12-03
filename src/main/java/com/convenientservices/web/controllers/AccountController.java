@@ -32,23 +32,21 @@ public class AccountController {
         return "edit-profile";
     }
 
-    @PostMapping()
+    @PostMapping("/edit")
     public String saveEditUser(Model model,
-                                   @ModelAttribute("user") User user,
-                                   @RequestParam String role,
-                                   @RequestParam String matchingPassword
-    ) {
-        System.out.println(user.getFirstName());
-        System.out.println(user.getLastName());
-        System.out.println(user.getEmail());
-        System.out.println(user.getPhone());
-        System.out.println(user.getRoles());
-//        String role = "user";
-//        String matchingPassword = "pass";
-        String answer = userService.registerNewUser(user, role, matchingPassword);
+                               Principal principal,
+                               @ModelAttribute("role") Long role,
+                               @ModelAttribute("matchingPassword") String matchingPassword,
+                               @ModelAttribute("user") User user) {
+        model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
+        System.out.println(user.toString());
+        System.out.println("role user is " + role);
+        System.out.println("matchingPassword is - " + matchingPassword);
+        String answer = userService.saveEditUser(principal, user, role, matchingPassword);
         if ("success".equals(answer)) {
             model.addAttribute("success", true);
-            return "account";
+            return "redirect:/account";
         }
         model.addAttribute("answer", answer);
         return "edit-profile";

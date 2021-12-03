@@ -149,31 +149,75 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String saveEditUser(Principal principal, User user, String role, String matchingPassword) {
-        if (user.getFirstName() == null){
-            user.setFirstName(userRepository.findUserByUserName(principal.getName()).get().getFirstName());
+    public String saveEditUser(Principal principal,
+                               User user,
+                               Long role,
+                               String matchingPassword) {
+        User oldUser = userRepository.findUserByUserName(principal.getName()).get();
+        System.out.println("first oldUser - " + oldUser.toString());
+        if (role == null) {
+            System.out.println(role + " is null");
+//            role =  oldUser.getRoles().iterator().next().getId();
+        } else {
+            oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
         }
-        if (user.getFirstName() == null){
-            user.setLastName(userRepository.findUserByUserName(principal.getName()).get().getLastName());
+        System.out.println("String role is - " + role);
+        if (user.getFirstName() == ""){
+
+        } else {
+            oldUser.setFirstName(user.getFirstName());
         }
-        if (user.getPassword() != null) {
-            if (!Utils.passwordMatching(user.getPassword(), matchingPassword)) {
-                return PASSWORD_DOES_NOT_MATCH;
+        if (user.getLastName() == ""){
+
+        } else {
+            oldUser.setLastName(user.getLastName());
+        }
+        if (matchingPassword == "") {
+            if (user.getPassword() == null) {
+            } else {
+
+                if (!Utils.passwordMatching(user.getPassword(), matchingPassword)) {
+                    return PASSWORD_DOES_NOT_MATCH;
+                } else {
+                    oldUser.setPassword(encoder.encode(user.getPassword()));
+                }
             }
         }
-        if(user.getEmail() != null) {
+        if(user.getEmail() == "") {
+
+        } else {
             if (userRepository.findFirstByEmail(user.getEmail()).isPresent()) {
                 return EMAIL_EXIST;
+            } else {
+                oldUser.setEmail(user.getEmail());
             }
         }
-        if (user.getPhone() != null) {
+        if (user.getPhone() == "") {
+        }else{
             if (userRepository.findFirstByPhone(user.getPhone()).isPresent()) {
+                System.out.println("phone is present");
                 return PHONE_EXIST;
+            } else {
+                oldUser.setPhone(user.getPhone());
             }
         }
-        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+//        if (oldUser.getRoles().equals(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))))){
+//
+//        } else {
+//            oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
+//        }
+//        if (role == null) {
+//        } else {
+//        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
+//            System.out.println(role + " is null");
+//            role = oldUser.getRoles().iterator().next().getName();
+//        }
+//        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
+//        oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
+//        user.setPassword(encoder.encode(user.getPassword()));
+        System.out.println("pre save oldUser - " + oldUser.toString());
+        userRepository.save(oldUser);
+        System.out.println("=========================================");
         return SUCCESS;
     }
 }
