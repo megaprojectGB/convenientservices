@@ -2,6 +2,7 @@ package com.convenientservices.web.services;
 
 import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.PointOfServices;
+import com.convenientservices.web.entities.Role;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.mapper.UserMapper;
 import com.convenientservices.web.repositories.RoleRepository;
@@ -29,13 +30,12 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
-    private UserMapper mapper = UserMapper.MAPPER;
+    private final UserMapper mapper = UserMapper.MAPPER;
 
     @Override
     public User getUserByUsername(String name) {
         Optional<User> userOptional = userRepository.findUserByUserName(name);
         if (userOptional.isEmpty()) {
-            // TODO: 23.10.2021 Сделать что-то логичное а не исключение
             throw new NoSuchElementException("User not found");
         }
         return userOptional.get();
@@ -145,5 +145,47 @@ public class UserServiceImpl implements UserService {
         }
 
         userOptional.get().getMasterServices().add(serviceOptional.get());
+    }
+
+    @Override
+    @Transactional
+    public String saveEditUser(Principal principal,
+                               UserDTO userDto,
+                               String password,
+                               String matchingPassword) {
+        Optional<User> oldUserOpt = userRepository.findUserByUserName(principal.getName());
+        Optional<Role> roleOpt = roleRepository.findByName(userDto.getRole());
+        Role role = roleOpt.orElse(null);
+
+        if (oldUserOpt.isEmpty()) {
+            return "success";
+        }
+
+        if (!Utils.passwordMatching(password, matchingPassword)) {
+            return PASSWORD_DOES_NOT_MATCH;
+        }
+
+        Optional<User> phoneUser = userRepository.findFirstByPhone(userDto.getPhone());
+        if (phoneUser.isPresent() && !principal.getName().equals(phoneUser.get().getUserName())) {
+            return PHONE_EXIST;
+        }
+
+        Optional<User> emailUser = userRepository.findFirstByEmail(userDto.getEmail());
+        if (emailUser.isPresent() && !principal.getName().equals(emailUser.get().getUserName())) {
+            return EMAIL_EXIST;
+        }
+
+        User user = mapper.toUser(userDto);
+        user.setFavoriteCompanies(oldUserOpt.get().getFavoriteCompanies());
+        user.setMasterServices(oldUserOpt.get().getMasterServices());
+        user.setMasterPos(oldUserOpt.get().getMasterPos());
+        user.setRoles(Collections.singleton(role));
+        if (password.isEmpty()) {
+            user.setPassword(oldUserOpt.get().getPassword());
+        } else {
+            user.setPassword(encoder.encode(password));
+        }
+        userRepository.save(user);
+        return SUCCESS;
     }
 }

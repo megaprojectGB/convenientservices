@@ -159,7 +159,7 @@
                         </a>
                     </li>
                     <li th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_USER')}">
-                        <a href="/business" class="nav-link link-dark">
+                        <a href="#" class="nav-link link-dark">
                             <svg class="bi me-2" width="16" height="16">
                                 <use xlink:href="#business"></use>
                             </svg>
@@ -167,41 +167,132 @@
                         </a>
                     </li>
                 </ul>
+                <hr>
             </div>
             <div class="p-4 bg-light" style="width: 820px;">
-                <h3>Ваши персональные данные: </h3>
+                <form th:action="@{/account/edit}" method="post" th:object="${userDTO}">
+                <h3>Измените ваши персональные данные: </h3>
                 <table class="table table-hover table-borderless">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Ваши персональные данные</th>
+                        <th scope="col"> Ваши персональные данные</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Имя: </th>
-                        <td>[[${userDTO.firstName}]]</td>
+                        <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">     Имя</span>
+                            <input th:field="*{firstName}" th:value="${userDTO.getFirstName()}" type="text" class="form-control"
+                                   aria-label="email" aria-describedby="addon-wrapping">
+                        </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Фамилия: </th>
-                        <td>[[${userDTO.lastName}]]</td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2">Фамилия</span>
+                                <input th:field="*{lastName}" th:value="${userDTO.getLastName()}" type="text" class="form-control"
+                                       aria-label="email" aria-describedby="addon-wrapping">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Логин: </th>
-                        <td colspan="2">[[${userDTO.userName}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">Статус: </th>
-                        <td colspan="2">[[${userDTO.status}]]</td>
+                        <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">Email</span>
+                            <input th:field="*{email}" th:value="${userDTO.getEmail()}" type="email" class="form-control" id="email"
+                                           aria-label="email" aria-describedby="addon-wrapping" placeholder="">
+                        </div>
+                            <div th:if="${answer.equalsIgnoreCase('email')}"
+                                 class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                     aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                </svg>
+                                <div>
+                                    Пользователь с таким Email уже существует!
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Email: </th>
-                        <td colspan="2">[[${userDTO.email}]]</td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon4">Phone</span>
+                                <input th:field="*{phone}" type="text" class="form-control" id="phone"
+                                       aria-label="phone" aria-describedby="addon-wrapping">
+                                <input th:field="*{id}" th:value="${userDTO.getId()}" type="text" class="form-control d-none" id="id"
+                                       aria-label="id" aria-describedby="addon-wrapping">
+                                <input th:field="*{userName}" th:value="${userDTO.getUserName()}" type="text" class="form-control d-none" id="userName"
+                                       aria-label="userName" aria-describedby="addon-wrapping">
+                                <input th:field="*{status}" th:value="${userDTO.getStatus()}" type="text" class="form-control d-none" id="status"
+                                       aria-label="status" aria-describedby="addon-wrapping">
+                                <input th:field="*{activated}" th:value="${userDTO.isActivated()}" type="text" class="form-control d-none" id="activated"
+                                       aria-label="activated" aria-describedby="addon-wrapping">
+                                <input th:unless="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" th:field="*{role}" th:value="${userDTO.getRole()}" type="text" class="form-control d-none" id="role2"
+                                       aria-label="role2" aria-describedby="addon-wrapping">
+                            </div>
+                            <div th:if="${answer.equalsIgnoreCase('phone')}"
+                                 class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                     aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                </svg>
+                                <div>
+                                    Пользователь с таким телефоном уже существует!
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Phone: </th>
-                        <td colspan="2">[[${userDTO.phone}]]</td>
+                    <td>
+                        <div th:if="${userDTO.getRole().equalsIgnoreCase('ROLE_CLIENT')}" class="col-md-5">
+                            <label for="role" class="form-label">Выберите тип аккаунта</label>
+                            <select class="form-select" aria-label="User role" id="role" th:field="*{role}">
+                                <option selected value="ROLE_CLIENT">Client</option>
+                                <option value="ROLE_USER">Business</option>
+                                <option value="ROLE_MASTER">Master</option>
+                            </select>
+                        </div>
+                    </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
+                            Изменить Пароль
+                            </button>
+
+                            <div id="demo" class="collapse in">
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon6">password</span>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                     placeholder=Password
+                                           aria-label="password" aria-describedby="addon-wrapping">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" >password</span>
+                                    <input  type="password" id="matchingPassword" name="matchingPassword"
+                                           class="form-control" placeholder="matchingPassword"
+                                           aria-label="password" aria-describedby="addon-wrapping">
+                                </div>
+                                <div th:if="${answer.equalsIgnoreCase('password')}"
+                                     class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                        <use xlink:href="#bug-error"/>
+                                    </svg>
+                                    <div>
+                                        Введенные пароли не совпадают!
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
                     <tr style="display:none;">
                         <th scope="row">Id: </th>
                         <td colspan="2">[[${userDTO.id}]]</td>
@@ -209,9 +300,10 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-<!--                    <button href="/account/edit" class="btn btn-primary" type="button">Редактировать</button>-->
-                    <a href="/account/edit" class="btn btn-primary active" type="button">Редактировать</a>
+                    <button class="my-4 w-100 btn btn-primary btn-lg"
+                            type="submit">Изменить</button>
                 </div>
+                </form>
 
             </div>
         </div>

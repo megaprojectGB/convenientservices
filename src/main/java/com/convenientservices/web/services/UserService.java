@@ -23,4 +23,6 @@ public interface UserService {
     void deleteServiceByUser(Principal principal, Long id);
 
     void addServiceToUser(Principal principal, Long id);
+
+    String saveEditUser(Principal principal, UserDTO user, String matchingPassword, String password);
 }
