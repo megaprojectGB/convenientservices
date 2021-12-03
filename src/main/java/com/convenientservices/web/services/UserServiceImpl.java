@@ -2,6 +2,7 @@ package com.convenientservices.web.services;
 
 import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.PointOfServices;
+import com.convenientservices.web.entities.Role;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.mapper.UserMapper;
 import com.convenientservices.web.repositories.RoleRepository;
@@ -35,7 +36,6 @@ public class UserServiceImpl implements UserService {
     public User getUserByUsername(String name) {
         Optional<User> userOptional = userRepository.findUserByUserName(name);
         if (userOptional.isEmpty()) {
-            // TODO: 23.10.2021 Сделать что-то логичное а не исключение
             throw new NoSuchElementException("User not found");
         }
         return userOptional.get();
@@ -150,74 +150,42 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String saveEditUser(Principal principal,
-                               User user,
-                               Long role,
+                               UserDTO userDto,
+                               String password,
                                String matchingPassword) {
-        User oldUser = userRepository.findUserByUserName(principal.getName()).get();
-        System.out.println("first oldUser - " + oldUser.toString());
-        if (role == null) {
-            System.out.println(role + " is null");
-//            role =  oldUser.getRoles().iterator().next().getId();
-        } else {
-            oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
-        }
-        System.out.println("String role is - " + role);
-        if (user.getFirstName() == ""){
+        Optional<User> oldUserOpt = userRepository.findUserByUserName(principal.getName());
+        Optional<Role> roleOpt = roleRepository.findByName(userDto.getRole());
+        Role role = roleOpt.orElse(null);
 
-        } else {
-            oldUser.setFirstName(user.getFirstName());
+        if (oldUserOpt.isEmpty()) {
+            return "success";
         }
-        if (user.getLastName() == ""){
 
-        } else {
-            oldUser.setLastName(user.getLastName());
+        if (!Utils.passwordMatching(password, matchingPassword)) {
+            return PASSWORD_DOES_NOT_MATCH;
         }
-        if (matchingPassword == "") {
-            if (user.getPassword() == null) {
-            } else {
 
-                if (!Utils.passwordMatching(user.getPassword(), matchingPassword)) {
-                    return PASSWORD_DOES_NOT_MATCH;
-                } else {
-                    oldUser.setPassword(encoder.encode(user.getPassword()));
-                }
-            }
+        Optional<User> phoneUser = userRepository.findFirstByPhone(userDto.getPhone());
+        if (phoneUser.isPresent() && !principal.getName().equals(phoneUser.get().getUserName())) {
+            return PHONE_EXIST;
         }
-        if(user.getEmail() == "") {
 
+        Optional<User> emailUser = userRepository.findFirstByEmail(userDto.getEmail());
+        if (emailUser.isPresent() && !principal.getName().equals(emailUser.get().getUserName())) {
+            return EMAIL_EXIST;
+        }
+
+        User user = mapper.toUser(userDto);
+        user.setFavoriteCompanies(oldUserOpt.get().getFavoriteCompanies());
+        user.setMasterServices(oldUserOpt.get().getMasterServices());
+        user.setMasterPos(oldUserOpt.get().getMasterPos());
+        user.setRoles(Collections.singleton(role));
+        if (password.isEmpty()) {
+            user.setPassword(oldUserOpt.get().getPassword());
         } else {
-            if (userRepository.findFirstByEmail(user.getEmail()).isPresent()) {
-                return EMAIL_EXIST;
-            } else {
-                oldUser.setEmail(user.getEmail());
-            }
+            user.setPassword(encoder.encode(password));
         }
-        if (user.getPhone() == "") {
-        }else{
-            if (userRepository.findFirstByPhone(user.getPhone()).isPresent()) {
-                System.out.println("phone is present");
-                return PHONE_EXIST;
-            } else {
-                oldUser.setPhone(user.getPhone());
-            }
-        }
-//        if (oldUser.getRoles().equals(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))))){
-//
-//        } else {
-//            oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
-//        }
-//        if (role == null) {
-//        } else {
-//        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
-//            System.out.println(role + " is null");
-//            role = oldUser.getRoles().iterator().next().getName();
-//        }
-//        user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
-//        oldUser.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(role).orElse(null))));
-//        user.setPassword(encoder.encode(user.getPassword()));
-        System.out.println("pre save oldUser - " + oldUser.toString());
-        userRepository.save(oldUser);
-        System.out.println("=========================================");
+        userRepository.save(user);
         return SUCCESS;
     }
 }

@@ -24,5 +24,5 @@ public interface UserService {
 
     void addServiceToUser(Principal principal, Long id);
 
-    String saveEditUser(Principal principal, User user, Long role, String password);
+    String saveEditUser(Principal principal, UserDTO user, String matchingPassword, String password);
 }
