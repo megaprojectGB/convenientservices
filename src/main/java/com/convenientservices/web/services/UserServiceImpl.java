@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
-    private UserMapper mapper = UserMapper.MAPPER;
+    private final UserMapper mapper = UserMapper.MAPPER;
 
     @Override
     public User getUserByUsername(String name) {
