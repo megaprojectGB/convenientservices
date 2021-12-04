@@ -45,10 +45,21 @@ public class BusinessController {
     public String editUserPos(Principal principal,
                               Model model,
                               @PathVariable Long id) {
-
+        PointOfServiceDto pos = pointOfServiceServices.getPointForEdit(id);
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
+        model.addAttribute("pos", pos);
+        model.addAttribute("posCategory", categoryService.findAll());
+        model.addAttribute("selector", pos.getSelector());
         return "edit_business";
+    }
+
+    @PostMapping("/edit")
+    public String saveEditUserPos(Principal principal,
+                                  @ModelAttribute("pos") PointOfServiceDto posDto,
+                                  @ModelAttribute("category") String category) {
+        pointOfServiceServices.editNewPos(posDto, category, principal);
+        return "redirect:/business";
     }
 
     @GetMapping("/new")

@@ -17,4 +17,5 @@ public class PointOfServiceDto {
     private String address;
     private String category;
     private String zip;
+    private Long selector;
 }
