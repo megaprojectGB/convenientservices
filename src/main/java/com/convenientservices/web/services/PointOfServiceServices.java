@@ -29,4 +29,8 @@ public interface PointOfServiceServices {
     void deletePosByUser(Principal principal, Long id);
 
     void saveNewPos(PointOfServiceDto posDto, String category, Principal principal);
+
+    void editNewPos(PointOfServiceDto posDto, String category, Principal principal);
+
+    PointOfServiceDto getPointForEdit(Long id);
 }

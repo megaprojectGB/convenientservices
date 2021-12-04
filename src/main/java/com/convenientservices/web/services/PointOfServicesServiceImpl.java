@@ -204,5 +204,79 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
         posRepository.save(pointToSave);
     }
+
+    @Override
+    public PointOfServiceDto getPointForEdit(Long id) {
+        Optional<PointOfServices> pos = posRepository.findById(id);
+        if (pos.isEmpty()) {
+            return null;
+        }
+        PointOfServiceDto dto = new PointOfServiceDto();
+        dto.setId(pos.get().getId());
+        dto.setName(pos.get().getName());
+        dto.setCategory(pos.get().getCategory().getName());
+        dto.setZip(pos.get().getAddress().getZipcode());
+        dto.setState(pos.get().getAddress().getCity().getState());
+        dto.setCity(pos.get().getAddress().getCity().getName());
+        dto.setAddress(pos.get().getAddress().getAddress1());
+        dto.setSelector(pos.get().getCategory().getId());
+        return dto;
+    }
+
+    @Override
+    @Transactional
+    public void editNewPos(PointOfServiceDto posDto, String category, Principal principal) {
+        Optional<PointOfServices> pos = posRepository.findById(posDto.getId());
+        if (pos.isEmpty()) {
+            return;
+        }
+        if (!posDto.getName().equals(pos.get().getName())) {
+            pos.get().setName(posDto.getName());
+        }
+
+        if (!posDto.getCategory().equals(pos.get().getCategory().getId().toString())) {
+            Category cat = categoryRepository.findById(Long.parseLong(posDto.getCategory())).orElse(null);
+            pos.get().setCategory(cat);
+        }
+
+        Address address = pos.get().getAddress();
+        if (!address.getZipcode().equals(posDto.getZip())) {
+            address.setZipcode(posDto.getZip());
+        }
+
+        if (!address.getAddress1().equals(posDto.getAddress())) {
+            address.setAddress1(posDto.getAddress());
+        }
+
+        City city = address.getCity();
+        if (!city.getName().equals(posDto.getCity())) {
+           City tmpCity = cityRepository.findByName(posDto.getName()).orElse(null);
+           if (tmpCity != null && tmpCity.getState().equals(posDto.getState())) {
+              city = tmpCity;
+           }
+           if (tmpCity == null) {
+               City c = new City();
+               c.setCountry("7");
+               c.setName(posDto.getCity());
+               c.setState(posDto.getState());
+               city = cityRepository.save(c);
+           }
+        }
+        if (city.getName().equals(posDto.getCity()) && !city.getState().equals(posDto.getState())) {
+            City tmpCity = cityRepository.findByNameAndState(posDto.getCity(), posDto.getState()).orElse(null);
+            if (tmpCity == null) {
+                City c = new City();
+                c.setCountry("7");
+                c.setName(posDto.getCity());
+                c.setState(posDto.getState());
+                city = cityRepository.save(c);
+            } else {
+                city = tmpCity;
+            }
+        }
+
+        address.setCity(city);
+        pos.get().setAddress(address);
+    }
 }
 

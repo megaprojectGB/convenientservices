@@ -209,6 +209,12 @@
                         </div>
                     </div>
                 </div>
+                <div th:if="${services.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
+                    <h3>Ваш список услуг пуст</h3>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/master/new" class="btn btn-primary justify-content-md-end">Добавить услуги</a>
+                    </div>
+                </div>
                 <div th:unless="${pointofservice.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
                     <h3>Вы работаете в следующих точках: </h3>
                     <table class="table table-hover">
