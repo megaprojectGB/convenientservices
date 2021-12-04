@@ -1,13 +1,13 @@
 package com.convenientservices.web.controllers;
 
+import com.convenientservices.web.dto.PointOfServiceDto;
+import com.convenientservices.web.services.CategoryService;
 import com.convenientservices.web.services.PointOfServiceServices;
 import com.convenientservices.web.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -17,6 +17,7 @@ import java.security.Principal;
 public class BusinessController {
     private final UserService userService;
     private final PointOfServiceServices pointOfServiceServices;
+    private final CategoryService categoryService;
 
     @GetMapping()
     public String showBusinessSettingsPage(Principal principal,
@@ -55,7 +56,17 @@ public class BusinessController {
                              Model model) {
 
         model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("pos", new PointOfServiceDto());
+        model.addAttribute("posCategory", categoryService.findAll());
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         return "new_business";
+    }
+
+    @PostMapping("/new")
+    public String newPos(Principal principal,
+                         @ModelAttribute("pos") PointOfServiceDto posDto,
+                         @ModelAttribute("category") String category) {
+        pointOfServiceServices.saveNewPos(posDto, category, principal);
+        return "redirect:/business";
     }
 }

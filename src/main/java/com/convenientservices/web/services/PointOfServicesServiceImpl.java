@@ -1,11 +1,9 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.dto.PointOfServiceDto;
+import com.convenientservices.web.entities.*;
 import com.convenientservices.web.exceptions.RecordNotFoundException;
-import com.convenientservices.web.entities.City;
-import com.convenientservices.web.entities.PointOfServices;
-import com.convenientservices.web.entities.User;
-import com.convenientservices.web.repositories.PointOfServicesRepository;
-import com.convenientservices.web.repositories.UserRepository;
+import com.convenientservices.web.repositories.*;
 import com.convenientservices.web.utilities.spec.PosSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,33 +24,36 @@ import java.util.stream.Collectors;
 public class PointOfServicesServiceImpl implements PointOfServiceServices {
     private final PointOfServicesRepository posRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final CityRepository cityRepository;
+    private final AddressRepository addressRepository;
 
     @Override
-    public PointOfServices findById (Long id) throws Exception {
+    public PointOfServices findById(Long id) throws Exception {
         if (posRepository.findById(id).isEmpty())
             throw new RecordNotFoundException("No pointOfServices found with id = " + id);
         return posRepository.findById(id).get();
     }
 
     @Override
-    public List<PointOfServices> findAll () {
+    public List<PointOfServices> findAll() {
         return posRepository.findAll();
     }
 
     @Override
-    public PointOfServices save (PointOfServices pointOfServices) {
+    public PointOfServices save(PointOfServices pointOfServices) {
         return posRepository.save(pointOfServices);
     }
 
     @Override
-    public PointOfServices findByName (String name) throws RecordNotFoundException {
+    public PointOfServices findByName(String name) throws RecordNotFoundException {
         Optional<PointOfServices> pointOfServices = posRepository.findByName(name);
         if (pointOfServices.isEmpty()) throw new RecordNotFoundException("No pointOfService found with name " + name);
         return pointOfServices.get();
     }
 
     @Override
-    public List<PointOfServices> findAllByCity (String city) {
+    public List<PointOfServices> findAllByCity(String city) {
         return posRepository.findAll().stream().filter(t -> t.getAddress().getCity().getName().equals(city)).collect(Collectors.toList());
     }
 
@@ -63,7 +64,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     @Transactional
-    public void deleteFavouriteCompanyByUser (Principal principal, Long id) {
+    public void deleteFavouriteCompanyByUser(Principal principal, Long id) {
         Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
         if (userOptional.isEmpty()) {
             return;
@@ -78,7 +79,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
     @Override
     @Transactional
-    public void addFavouriteCompanyByUser (Principal principal, Long id) {
+    public void addFavouriteCompanyByUser(Principal principal, Long id) {
         Optional<User> userOptional = userRepository.findUserByUserName(principal.getName());
         if (userOptional.isEmpty()) {
             return;
@@ -88,10 +89,10 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
             return;
         }
 
-        for (int i = 0; i <userOptional.get().getFavoriteCompanies().size(); i++){
-            if (userOptional.get().getFavoriteCompanies().get(i).getId() != id){
+        for (int i = 0; i < userOptional.get().getFavoriteCompanies().size(); i++) {
+            if (userOptional.get().getFavoriteCompanies().get(i).getId() != id) {
                 continue;
-            }else {
+            } else {
                 return;
             }
         }
@@ -99,7 +100,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public List<PointOfServices> findByCategoryLike (String categoryPattern) throws RecordNotFoundException {
+    public List<PointOfServices> findByCategoryLike(String categoryPattern) throws RecordNotFoundException {
         List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLike(categoryPattern);
         if (pointsOfServices.isEmpty())
             throw new RecordNotFoundException("No records found for category " + categoryPattern);
@@ -107,7 +108,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public List<PointOfServices> findByCategoryLikeAndCity (String categoryPattern, City city) throws RecordNotFoundException {
+    public List<PointOfServices> findByCategoryLikeAndCity(String categoryPattern, City city) throws RecordNotFoundException {
         List<PointOfServices> pointsOfServices = posRepository.findByCategoryNameLikeAndAddress_City(categoryPattern, city);
         if (pointsOfServices.isEmpty())
             throw new RecordNotFoundException("No records found for category " + categoryPattern + " and city " + city.getName());
@@ -131,7 +132,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public List<PointOfServices> findAll (Map<String, String> params) {
+    public List<PointOfServices> findAll(Map<String, String> params) {
         final Specification<PointOfServices> specification = params.entrySet().stream()
                 .filter(it -> StringUtils.hasText(it.getValue()))
                 .map(it -> {
@@ -168,6 +169,40 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
         }
         user.getMasterPos().remove(pos.get());
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void saveNewPos(PointOfServiceDto posDto, String category, Principal principal) {
+        Category posCategory = categoryRepository.findById(Long.parseLong(category)).orElse(null);
+        City city = cityRepository.findByName(posDto.getCity()).orElse(null);
+        if (city == null) {
+            city = new City();
+            city.setCountry("7");
+            city.setName(posDto.getCity());
+            city.setState(posDto.getState());
+            city = cityRepository.save(city);
+        }
+
+        User boss = userRepository.findUserByUserName(principal.getName()).orElse(null);
+
+        Address address = addressRepository.findByAddress1(posDto.getAddress()).orElse(null);
+        if (address == null) {
+            address = new Address();
+            address.setZipcode(posDto.getZip());
+            address.setAddress1(posDto.getAddress());
+            address.setAddress2(null);
+            address.setCity(city);
+            address = addressRepository.save(address);
+        }
+
+        PointOfServices pointToSave = new PointOfServices();
+        pointToSave.setName(posDto.getName());
+        pointToSave.setAddress(address);
+        pointToSave.setBoss(boss);
+        pointToSave.setCategory(posCategory);
+
+        posRepository.save(pointToSave);
     }
 }
 
