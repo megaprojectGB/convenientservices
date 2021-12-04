@@ -175,7 +175,48 @@
                 </ul>
             </div>
             <div class="p-4 bg-light" style="width: 820px;">
-               <h1>Добавление новой POS</h1>
+                <h1>Добавление новой точки обслуживания</h1>
+                <form th:object="${pos}" method="post" action="/business/new">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">Название точки обслуживания</label>
+                        <input th:field="*{id}" placeholder="Гаечные ключи" type="text" class="form-control d-none"
+                               id="id"
+                               aria-describedby="emailHelp">
+                        <input th:field="*{name}" placeholder="Гаечные ключи" type="text" class="form-control" id="name"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Категория точки обслуживания</label>
+                        <select name="category" class="form-select" aria-label="Default select example"
+                                id="category">
+                            <div th:each="cat : ${posCategory}">
+                                <option th:value="${cat.id}">[[${cat.name}]]</option>
+                            </div>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="zip" class="form-label">Индекс</label>
+                        <input th:field="*{zip}" placeholder="308039" type="text" class="form-control" id="zip"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="state" class="form-label">Область</label>
+                        <input th:field="*{state}" placeholder="Московская область" type="text" class="form-control" id="state"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">Город</label>
+                        <input th:field="*{city}" placeholder="Москва" type="text" class="form-control" id="city"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Улица, дом, офис</label>
+                        <input th:field="*{address}" placeholder="ул. Димитрова, 15 корпус 1, офис 6" type="text"
+                               class="form-control"
+                               id="address" aria-describedby="emailHelp">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Создать</button>
+                </form>
             </div>
         </div>
         <div th:insert="~{fragments/menu :: #bottom-menu}"></div>

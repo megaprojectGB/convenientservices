@@ -43,7 +43,7 @@ CREATE TABLE "address" (
 );
 
 CREATE TABLE "city" (
-                          "id" int PRIMARY KEY,
+                          "id" SERIAL PRIMARY KEY,
                           "name" VARCHAR(30),
                           "state" VARCHAR(30),
                           "country" VARCHAR(2)
