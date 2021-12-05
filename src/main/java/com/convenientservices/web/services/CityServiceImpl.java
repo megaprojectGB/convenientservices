@@ -41,13 +41,11 @@ public class CityServiceImpl implements CityService {
             List<City> cities = repository.findAll().stream()
                     .filter(city -> city.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT)))
                     .collect(Collectors.toList());
-            if (cities != null && !cities.isEmpty()) {
+            if (!cities.isEmpty()) {
                 return cities.get(0).getName();
-            } else {
-                return null;
             }
         }
-        return name;
+        return null;
     }
 
 }

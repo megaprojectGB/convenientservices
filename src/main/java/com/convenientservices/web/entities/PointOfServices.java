@@ -54,4 +54,15 @@ public class PointOfServices {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", boss=" + boss +
+                ", address=" + address +
+                ", category=" + category +
+                '}';
+    }
 }

@@ -52,7 +52,7 @@ public class MainController {
         }
 
         if (pos != null) {
-            model.addAttribute("companies", pointOfServiceServices.findAllByNameLike(pos));
+            model.addAttribute("companies", pointOfServiceServices.findAllByNameLike(pos, selectCity, selectCategory));
         } else {
             model.addAttribute("companies", pointOfServiceServices.findAll(params));
         }

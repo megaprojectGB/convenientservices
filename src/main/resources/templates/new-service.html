@@ -187,7 +187,7 @@
                                            placeholder="Type to filter...">
                                 </form>
                                 <ul th:each="category : ${categories}" class="list-unstyled mb-0">
-                                    <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+                                    <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/master/new(category = ${category.name})}">
                                 <span class="d-inline-block bg-success rounded-circle"
                                       style="width: .5em; height: .5em;"></span>
                                         [[${category.name}]]

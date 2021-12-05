@@ -40,4 +40,14 @@ public class City {
     public int hashCode() {
         return Objects.hash(id, name, state, country);
     }
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }

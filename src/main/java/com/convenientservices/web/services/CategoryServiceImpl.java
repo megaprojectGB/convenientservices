@@ -41,12 +41,10 @@ public class CategoryServiceImpl implements CategoryService {
             List<Category> categories = repository.findAll().stream()
                     .filter(category -> category.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT)))
                     .collect(Collectors.toList());
-            if (categories != null && !categories.isEmpty()) {
+            if (!categories.isEmpty()) {
                 return categories.get(0).getName();
-            } else {
-                return null;
             }
         }
-        return name;
+        return null;
     }
 }

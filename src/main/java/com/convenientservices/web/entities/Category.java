@@ -46,4 +46,13 @@ public class Category {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", name=\"" + name + '\"' +
+                ", description=\"" + description + '\"' +
+                '}';
+    }
 }

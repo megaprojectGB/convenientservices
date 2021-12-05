@@ -67,4 +67,14 @@ public class User {
             joinColumns = @JoinColumn(name = "master_user_id"),
             inverseJoinColumns = @JoinColumn(name = "point_of_services_id"))
     private List<PointOfServices> masterPos;
+
+    @Override
+    public String toString() {
+        return '{' +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
