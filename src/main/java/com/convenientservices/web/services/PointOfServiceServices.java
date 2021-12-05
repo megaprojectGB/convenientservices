@@ -1,6 +1,7 @@
 package com.convenientservices.web.services;
 
 import com.convenientservices.web.dto.PointOfServiceDto;
+import com.convenientservices.web.entities.Category;
 import com.convenientservices.web.exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
@@ -25,7 +26,7 @@ public interface PointOfServiceServices {
     List<PointOfServices> findByNameLikeAndCategoryNameAndCityName(String posNamePattern,
                                                                    String categoryName,
                                                                    String cityName) throws RecordNotFoundException;
-    List<PointOfServices> findAllByNameLike(String posNamePattern);
+    List<PointOfServices> findAllByNameLike(String posNamePattern, String city, String category);
     void deletePosByUser(Principal principal, Long id);
 
     void saveNewPos(PointOfServiceDto posDto, String category, Principal principal);

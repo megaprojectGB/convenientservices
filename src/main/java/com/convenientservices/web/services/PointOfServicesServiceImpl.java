@@ -127,8 +127,19 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     }
 
     @Override
-    public List<PointOfServices> findAllByNameLike(String posNamePattern) {
-        return posRepository.findAllByNameContainingIgnoreCase(posNamePattern);
+    public List<PointOfServices> findAllByNameLike(String posNamePattern, String city, String category) {
+        List<PointOfServices> pointsOfServices = posRepository.findAllByNameContainingIgnoreCase(posNamePattern);
+        if (city != null) {
+            pointsOfServices = pointsOfServices.stream()
+                    .filter((pos) -> pos.getAddress().getCity().getName().equals(city))
+                    .collect(Collectors.toList());
+        }
+        if (category != null) {
+            pointsOfServices = pointsOfServices.stream()
+                    .filter((pos) -> pos.getCategory().getName().equals(category))
+                    .collect(Collectors.toList());
+        }
+        return pointsOfServices;
     }
 
     @Override

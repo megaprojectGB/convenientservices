@@ -1,12 +1,16 @@
 package com.convenientservices.web.controllers;
 
+import com.convenientservices.web.dto.ServiceDto;
 import com.convenientservices.web.services.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,8 +22,7 @@ public class MasterControllers {
     private final ServiceCategoryService serviceCategoryService;
 
     @GetMapping()
-    public String showMasterSettingsPage(Principal principal,
-                                         Model model) {
+    public String showMasterSettingsPage(Principal principal, Model model) {
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
@@ -43,11 +46,20 @@ public class MasterControllers {
 
     @GetMapping("/new")
     public String newServiceByUser(Principal principal,
-                                   Model model) {
+                                   Model model,
+                                   @Param(value = "category") String category) {
         model.addAttribute("categories", serviceCategoryService.findAll());
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
-        model.addAttribute("services", serviceService.findAll());
+
+        List<ServiceDto> serviceDtos = serviceService.findAll();
+        if (category != null) {
+            serviceDtos = serviceDtos.stream()
+                    .filter(serviceDto -> serviceDto.getCategory().getName().equals(category))
+                    .collect(Collectors.toList());
+        }
+        model.addAttribute("services", serviceDtos);
+
         return "new-service";
     }
 
