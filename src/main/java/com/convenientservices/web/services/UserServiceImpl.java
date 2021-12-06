@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -188,4 +189,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return SUCCESS;
     }
+
+    @Override
+    public List<User> getAllMasters() {
+        List<User> users = userRepository.findAll();
+        Role role = roleRepository.findByName("ROLE_MASTER").orElse(null);
+        return users.stream().filter(e -> e.getRoles().contains(role)).collect(Collectors.toList());
+    }
+
 }

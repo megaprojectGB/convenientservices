@@ -80,4 +80,35 @@ public class BusinessController {
         pointOfServiceServices.saveNewPos(posDto, category, principal);
         return "redirect:/business";
     }
+
+    @GetMapping("/pos/{id}")
+    public String showPos(Principal principal,
+                             Model model,
+                             @PathVariable Long id) {
+        model.addAttribute("posId", id);
+        model.addAttribute("masters", pointOfServiceServices.getMastersForPos(id));
+        model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
+        return "business_pos";
+    }
+
+    @GetMapping("/deletemasterfrompos")
+    public String deleteMasterPos(@RequestParam(name = "id") Long id,
+                                  @RequestParam(name = "posId") Long posId) {
+        pointOfServiceServices.deleteMasterFromPos(id, posId);
+        return "redirect:/business/pos/".concat(posId.toString());
+    }
+
+    @GetMapping("/addmaster")
+    public String addMasterToPos(Principal principal,
+                          Model model,
+                                 @RequestParam(name = "posId") Long posId) {
+        model.addAttribute("posId", posId);
+        System.out.println(userService.getAllMasters());
+        model.addAttribute("masters", userService.getAllMasters());
+        model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
+        // TODO: 06.12.2021 Доделать фронт 
+        return "business_add_master";
+    }
 }

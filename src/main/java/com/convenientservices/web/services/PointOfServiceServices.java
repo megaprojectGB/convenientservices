@@ -2,6 +2,7 @@ package com.convenientservices.web.services;
 
 import com.convenientservices.web.dto.PointOfServiceDto;
 import com.convenientservices.web.entities.Category;
+import com.convenientservices.web.entities.User;
 import com.convenientservices.web.exceptions.RecordNotFoundException;
 import com.convenientservices.web.entities.City;
 import com.convenientservices.web.entities.PointOfServices;
@@ -34,4 +35,8 @@ public interface PointOfServiceServices {
     void editNewPos(PointOfServiceDto posDto, String category, Principal principal);
 
     PointOfServiceDto getPointForEdit(Long id);
+
+    List<User> getMastersForPos(Long id);
+
+    void deleteMasterFromPos(Long id, Long posId);
 }
