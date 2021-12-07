@@ -261,17 +261,17 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
         City city = address.getCity();
         if (!city.getName().equals(posDto.getCity())) {
-           City tmpCity = cityRepository.findByName(posDto.getName()).orElse(null);
-           if (tmpCity != null && tmpCity.getState().equals(posDto.getState())) {
-              city = tmpCity;
-           }
-           if (tmpCity == null) {
-               City c = new City();
-               c.setCountry("7");
-               c.setName(posDto.getCity());
-               c.setState(posDto.getState());
-               city = cityRepository.save(c);
-           }
+            City tmpCity = cityRepository.findByName(posDto.getName()).orElse(null);
+            if (tmpCity != null && tmpCity.getState().equals(posDto.getState())) {
+                city = tmpCity;
+            }
+            if (tmpCity == null) {
+                City c = new City();
+                c.setCountry("7");
+                c.setName(posDto.getCity());
+                c.setState(posDto.getState());
+                city = cityRepository.save(c);
+            }
         }
         if (city.getName().equals(posDto.getCity()) && !city.getState().equals(posDto.getState())) {
             City tmpCity = cityRepository.findByNameAndState(posDto.getCity(), posDto.getState()).orElse(null);
@@ -288,6 +288,23 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
 
         address.setCity(city);
         pos.get().setAddress(address);
+    }
+
+    @Override
+    public List<User> getMastersForPos(Long id) {
+        Optional<PointOfServices> posOpt = posRepository.findById(id);
+        if (posOpt.isEmpty()) {
+            return null;
+        }
+        return posOpt.get().getUsers();
+    }
+
+    @Override
+    @Transactional
+    public void deleteMasterFromPos(Long id, Long posId) {
+        PointOfServices posOpt = posRepository.findById(posId).get();
+        User master = userRepository.findById(id).get();
+        master.getMasterPos().remove(posOpt);
     }
 }
 

@@ -174,25 +174,47 @@
                     </li>
                 </ul>
             </div>
-            <div class="p-4 bg-light" style="width: 820px;">
-                <h3 th:if="${pointofservices.isEmpty()}">Ваш список точек обслуживания пуст.</h3>
-                <h3 th:unless="${pointofservices.isEmpty()}">Ваши точки обслуживания</h3>
-                <div  th:each="pos : ${pointofservices}">
-                    <div class="card mt-2 mb-2 shadow">
-                        <h6 class="card-header">Категория: [[${pos.category.getName()}]]</h6>
-                        <div class="card-body">
-                            <h5 class="card-title">Точка: <a th:href="@{/business/pos/{id}(
-                            id = ${pos.id}
-                            )}">[[${pos.getName()}]]</a></h5>
-                            <p class="card-text">Адрес: [[${pos.address.city.getName()}]], [[${pos.address.getAddress1()}]]</p>
-                            <a th:href="@{/business/edit/{id}(
-                        id = ${pos.getId()}
-                        )}" class="btn btn-primary">Редактировать</a>
+            <div>
+                <div th:unless="${masters.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
+                    <h3>Список мастеров точки обслуживания: </h3>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">ФИО</th>
+                            <th scope="col">Телефон</th>
+                            <th scope="col">Почта</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="master : ${masters}">
+                            <th scope="row">[[${master.id}]]</th>
+                            <td>[[${master.firstName}]] [[${master.lastName}]]</td>
+                            <td>[[${master.phone}]]</td>
+                            <td>[[${master.email}]]</td>
+                            <td><a class="dropdown-item d-flex gap-2 align-items-center" th:href="@{/business/deletemasterfrompos (
+                            id = ${master.getId()},
+                            posId = ${posId}
+                            )}">
+                                <svg class="bi" width="16" height="16">
+                                    <use xlink:href="#delete"></use>
+                                </svg>
+                                Уволить</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/business/addmaster(posId = ${posId})}" class="btn btn-primary justify-content-md-end">Добавить мастера</a>
                         </div>
                     </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="/business/new" class="btn btn-primary justify-content-md-end">Добавить новую точку</a>
+                <div th:if="${masters.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
+                    <h3>Список мастеров точки пуст</h3>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/business/addmaster" class="btn btn-primary justify-content-md-end">Добавить мастера</a>
+                    </div>
                 </div>
             </div>
         </div>
