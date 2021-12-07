@@ -31,9 +31,7 @@ public class OrderController {
 
         @GetMapping("/delete/{id}")
     public String deleteById (@PathVariable Long id) {
-        System.out.println(id);
         bookingService.deleteById(id);
-
         return "redirect:/orders";
     }
 
