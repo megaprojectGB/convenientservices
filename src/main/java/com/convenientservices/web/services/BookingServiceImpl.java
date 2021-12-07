@@ -38,6 +38,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public void deleteById (Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
     public List<Booking> getOldBookings(Principal principal) {
         return this.findAllByUserName(principal.getName()).stream()
                 .filter(booking -> booking.getDt().isBefore(LocalDateTime.now()))
