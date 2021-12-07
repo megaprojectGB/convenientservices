@@ -2,6 +2,7 @@ package com.convenientservices.web.utilities;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -22,6 +23,12 @@ public class Utils {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
         return LocalTime.ofSecondOfDay(seconds).format(formatter);
+    }
+
+    public static LocalDate getLocalDateFromString(String time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(time, formatter);
+        return date;
     }
 
     public static boolean passwordMatching(String password, String matchingPassword) {

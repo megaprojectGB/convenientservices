@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Выбор организации - Convenient Services</title>
+    <div th:insert="~{fragments/menu :: #head}"></div>
+</head>
+
+<body class="bg-light">
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="files" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
+    </symbol>
+    <symbol id="booking" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+    </symbol>
+    <symbol id="account" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+        <path fill-rule="evenodd"
+              d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+    </symbol>
+    <symbol id="exit" viewBox="0 0 16 16" fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+        <path fill-rule="evenodd"
+              d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+    </symbol>
+    <symbol id="else" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M10 2a2 2 0 0 1-1.5 1.937v5.087c.863.083 1.5.377 1.5.726 0 .414-.895.75-2 .75s-2-.336-2-.75c0-.35.637-.643 1.5-.726V3.937A2 2 0 1 1 10 2z"/>
+        <path d="M0 9.665v1.717a1 1 0 0 0 .553.894l6.553 3.277a2 2 0 0 0 1.788 0l6.553-3.277a1 1 0 0 0 .553-.894V9.665c0-.1-.06-.19-.152-.23L9.5 6.715v.993l5.227 2.178a.125.125 0 0 1 .001.23l-5.94 2.546a2 2 0 0 1-1.576 0l-5.94-2.546a.125.125 0 0 1 .001-.23L6.5 7.708l-.013-.988L.152 9.435a.25.25 0 0 0-.152.23z"/>
+    </symbol>
+    <symbol id="master" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+    </symbol>
+    <symbol id="calendar" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+    </symbol>
+</svg>
+
+<nav th:insert="~{fragments/menu :: #nav-nav}"></nav>
+
+<div class="container">
+    <div th:unless="${userDTO.isActivated}" class="alert alert-danger m-2" role="alert">
+        Ваш аккаунт не активирован! Ссылка активации отправлена на Ваш электронный адрес. Аккаунт будет заблокирован
+        через 48 часов!
+    </div>
+    <div class="main">
+        <div class="d-flex">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                <a href="/main"
+                   class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32">
+                        <use xlink:href="#calendar"></use>
+                    </svg>
+                    <span class="fs-5">Бронирование услуги</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <div th:each="master: ${masters}">
+                        <li>
+                            <a th:if="${masterId} == ${master.id}" th:href="@{/booking (
+                        masterId = ${master.id},
+                        posId = ${posId}
+                        )}" class="nav-link active">
+                                <svg class="bi me-2" width="16" height="16">
+                                    <use xlink:href="#master" fill="currentColor"></use>
+                                </svg>
+                                [[${master.firstName}]] [[${master.lastName}]]
+                            </a>
+                            <a th:unless="${masterId} == ${master.id}" th:href="@{/booking (
+                        masterId = ${master.id},
+                        posId = ${posId}
+                        )}" class="nav-link link-dark">
+                                <svg class="bi me-2" width="16" height="16">
+                                    <use xlink:href="#master" fill="currentColor"></use>
+                                </svg>
+                                [[${master.firstName}]] [[${master.lastName}]]
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <div>
+                <div class="mt-2 pt-3">
+                    <form action="/booking" class="justify-content-md-end">
+                        <p>Выберите дату:
+                            <input class="d-none" type="text" name="masterId" th:value="${masterId}"
+                                   max="2022-06-04" min="2021-05-29">
+                            <input class="d-none" type="text" name="posId" th:value="${posId}"
+                                   max="2022-06-04" min="2021-05-29">
+                            <input type="date" name="calendar" th:value="${selectedDate}"
+                                   th:attr="max=${maxDate},  min=${now}">
+                            <input type="submit" value="Отправить"></p>
+                    </form>
+                </div>
+
+                <div th:unless="${masters.isEmpty()}" class="body2">
+
+                    <div class="scheduleContainer">
+
+                        <!-- TIMES -->
+                        <div class="time start-800">8:00</div>
+                        <div class="time start-830">8:30</div>
+                        <div class="time start-900">9:00</div>
+                        <div class="time start-930">9:30</div>
+                        <div class="time start-1000">10:00</div>
+                        <div class="time start-1030">10:30</div>
+                        <div class="time start-1100">11:00</div>
+                        <div class="time start-1130">11:30</div>
+                        <div class="time start-1200">12:00</div>
+                        <div class="time start-1230">12:30</div>
+                        <div class="time start-1300">13:00</div>
+                        <div class="time start-1330">13:30</div>
+                        <div class="time start-1400">14:00</div>
+                        <div class="time start-1430">14:30</div>
+                        <div class="time start-1500">15:00</div>
+                        <div class="time start-1530">15:30</div>
+                        <div class="time start-1600">16:00</div>
+                        <div class="time start-1630">16:30</div>
+                        <div class="time start-1700">17:00</div>
+                        <div class="time start-1730">17:30</div>
+                        <div class="time start-1800">18:00</div>
+                        <div class="time start-1830">18:30</div>
+                        <div class="time start-1900">19:00</div>
+                        <div class="time start-1930">19:30</div>
+                        <div class="time start-2000">20:00</div>
+                        <div class="time start-2030">20:30</div>
+                        <div class="time start-2100">21:00</div>
+                        <div class="time start-2130">21:30</div>
+
+                        <!-- EVENTS -->
+                        <div class="event stage-saturn start-800 end-930 length-7">Arrival and registration <span>Registration Area</span>
+                        </div>
+                        <div class="event stage-earth start-1000 end-1000 length-4">Welcome <span>Earth Stage</span>
+                        </div>
+                        <div class="event stage-earth start-1030 end-1030 length-4">Speaker One <span>Earth Stage</span>
+                        </div>
+                        <div class="event stage-earth start-1100 end-1100 length-4">Speaker Two <span>Earth Stage</span>
+                        </div>
+                        <div class="event stage-earth start-1130 end-1130 length-4">Speaker Three
+                            <span>Earth Stage</span>
+                        </div>
+
+                        <div class="event stage-mercury start-1200 end-1600 length-1">Speaker Five
+                            <span>Mercury Stage</span>
+                        </div>
+                        <div class="event stage-venus start-1200 end-1600 length-1">Speaker Six <span>Venus Stage</span>
+                        </div>
+                        <div class="event stage-mars start-1200 end-1600 length-1">Speaker Seven <span>Mars Stage</span>
+                        </div>
+                        <div class="event stage-saturn start-1200 end-1300 length-1">Lunch <span>Saturn Stage</span>
+                        </div>
+                        <div class="event stage-mercury start-1200 end-1600 length-1">Speaker Five
+                            <span>Mercury Stage</span>
+                        </div>
+                        <div class="event stage-venus start-1200 end-1600 length-1">Speaker Six <span>Venus Stage</span>
+                        </div>
+                        <div class="event stage-mars start-1200 end-1600 length-1">Speaker Seven <span>Mars Stage</span>
+                        </div>
+                        <div class="event stage-earth start-1630 end-1630 length-4">Speaker Eigth
+                            <span>Earth Stage</span>
+                        </div>
+                        <div class="event stage-earth start-1700 end-1700 length-4">Speaker Nine
+                            <span>Earth Stage</span>
+                        </div>
+
+                        <div class="event stage-saturn start-1730 end-1730 length-4">Break <span>Saturn Stage</span>
+                        </div>
+
+                        <div class="event stage-earth start-1800 end-1900 length-1">Speaker Ten <span>Earth Stage</span>
+                        </div>
+                        <div class="event stage-mercury start-1800 end-1900 length-1">Speaker Eleven
+                            <span>Mercury Stage</span>
+                        </div>
+                        <div class="event stage-jupiter start-1800 end-1900 length-2">Speaker Twelve
+                            <span>Jupiter Stage</span>
+                        </div>
+
+                        <div class="event stage-venus start-1930 end-2130 length-2">Speaker Thirteen
+                            <span>Venus Stage</span>
+                        </div>
+                        <div class="event stage-saturn start-1930 end-2130 length-2">Drinks <span>Saturn Stage</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div th:insert="~{fragments/menu :: #bottom-menu}"></div>
+</div>
+</body>
+</html>

@@ -103,7 +103,7 @@
         <div th:unless="${favourites.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
             <h6 class="border-bottom pb-2 mb-0">Любимые компании</h6>
             <div th:each="favourite : ${favourites}">
-                <a href="#">
+                <a th:href="@{/booking (posId = ${favourite.getId()})}">
                     <div class="d-flex text-muted pt-3">
 
                         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
@@ -126,7 +126,7 @@
             <h6 class="border-bottom pb-2 mb-0">Все компании</h6>
 
             <div th:each="company : ${companies}" class="d-flex text-muted pt-3">
-                <a href="#777">
+                <a th:href="@{/booking (posId = ${company.getId()})}">
                     <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
                          preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
