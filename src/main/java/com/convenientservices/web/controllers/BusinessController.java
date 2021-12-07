@@ -104,11 +104,18 @@ public class BusinessController {
                           Model model,
                                  @RequestParam(name = "posId") Long posId) {
         model.addAttribute("posId", posId);
-        System.out.println(userService.getAllMasters());
         model.addAttribute("masters", userService.getAllMasters());
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
-        // TODO: 06.12.2021 Доделать фронт 
         return "business_add_master";
+    }
+
+    @GetMapping("/addmastertopos")
+    public String addMasterToPos(Principal principal,
+                                 Model model,
+                                 @RequestParam(name = "posId") Long posId,
+                                 @RequestParam(name = "id") Long masterId) {
+        userService.addMasterToPos(posId, masterId);
+        return "redirect:/business/addmaster?posId=".concat(String.valueOf(posId));
     }
 }

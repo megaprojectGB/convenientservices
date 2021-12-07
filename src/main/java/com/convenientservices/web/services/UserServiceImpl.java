@@ -5,6 +5,7 @@ import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.Role;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.mapper.UserMapper;
+import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.RoleRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import com.convenientservices.web.utilities.Utils;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final String EMAIL_EXIST = "email";
     private final String UNKNOWN = "Unknown User";
     private final UserRepository userRepository;
+    private final PointOfServicesRepository posRepository;
     private final ServiceService serviceService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
@@ -197,4 +199,14 @@ public class UserServiceImpl implements UserService {
         return users.stream().filter(e -> e.getRoles().contains(role)).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void addMasterToPos(Long posId, Long masterId) {
+        Optional<PointOfServices> pos = posRepository.findById(posId);
+        Optional<User> master = userRepository.findById(masterId);
+        if(pos.isEmpty() || master.isEmpty()) {
+            return;
+        }
+        master.get().getMasterPos().add(pos.get());
+    }
 }

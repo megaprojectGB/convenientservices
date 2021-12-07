@@ -27,4 +27,6 @@ public interface UserService {
     String saveEditUser(Principal principal, UserDTO user, String matchingPassword, String password);
 
     List<User> getAllMasters();
+
+    void addMasterToPos(Long posId, Long masterId);
 }
