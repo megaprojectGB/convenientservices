@@ -180,7 +180,7 @@
                         <div class="card-body">
                             <h5 class="card-title">[[${booking.pointOfServices.category.getName}]] - [[${booking.pointOfServices.getName()}]]</h5>
                             <p class="card-text">[[${booking.pointOfServices.address.city.getName()}]], [[${booking.pointOfServices.address.getAddress1()}]]</p>
-                            <a th:href="@{/order/delete/{id}(
+                            <a th:href="@{/orders/delete/{id}(
                         id = ${booking.getId()}
                         )}" class="btn btn-primary">Отменить</a>
                         </div>
