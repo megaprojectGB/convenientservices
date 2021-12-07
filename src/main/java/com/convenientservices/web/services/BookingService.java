@@ -7,11 +7,16 @@ import java.util.List;
 
 public interface BookingService {
     Booking findById (Long id) throws Exception;
-    List<Booking> findAll();
-    List<Booking> findAllByUserName(String name);
-    Booking save(Booking booking);
 
-    List<Booking> getGoodBookings(Principal principal);
+    List<Booking> findAll ();
 
-    List<Booking> getOldBookings(Principal principal);
+    List<Booking> findAllByUserName (String name);
+
+    Booking save (Booking booking);
+
+    List<Booking> getGoodBookings (Principal principal);
+
+    void deleteById (Long id);
+
+    List<Booking> getOldBookings (Principal principal);
 }
