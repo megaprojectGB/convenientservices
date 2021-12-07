@@ -213,7 +213,7 @@
                 <div th:if="${masters.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
                     <h3>Список мастеров точки пуст</h3>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="/business/addmaster" class="btn btn-primary justify-content-md-end">Добавить мастера</a>
+                        <a th:href="@{/business/addmaster(posId = ${posId})}" class="btn btn-primary justify-content-md-end">Добавить мастера</a>
                     </div>
                 </div>
             </div>
