@@ -1,6 +1,7 @@
 package com.convenientservices.web.controllers;
 
 import com.convenientservices.web.dto.PointOfServiceDto;
+import com.convenientservices.web.services.BookingService;
 import com.convenientservices.web.services.CategoryService;
 import com.convenientservices.web.services.PointOfServiceServices;
 import com.convenientservices.web.services.UserService;
@@ -18,6 +19,8 @@ public class BusinessController {
     private final UserService userService;
     private final PointOfServiceServices pointOfServiceServices;
     private final CategoryService categoryService;
+    private final BookingService bookingService;
+
 
     @GetMapping()
     public String showBusinessSettingsPage(Principal principal,
@@ -86,11 +89,13 @@ public class BusinessController {
                              Model model,
                              @PathVariable Long id) {
         model.addAttribute("posId", id);
+        model.addAttribute("bookings", bookingService.findAllByPosId(id));
         model.addAttribute("masters", pointOfServiceServices.getMastersForPos(id));
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         return "business_pos";
     }
+
 
     @GetMapping("/deletemasterfrompos")
     public String deleteMasterPos(@RequestParam(name = "id") Long id,
