@@ -176,7 +176,7 @@
                 <h3 th:unless="${bookings.isEmpty()}">Ваши бронирования</h3>
                 <div  th:each="booking : ${bookings}">
                     <div class="card mt-2 mb-2 shadow">
-                        <h6 class="card-header">Бронь №[[${booking.getId}]] - Дата и время: [[${booking.getDt}]]</h6>
+                        <h6 class="card-header">Бронь №[[${booking.getId}]] - Дата: [[${booking.getDt.toLocalDate()}]] Время: [[${booking.getDt.toLocalTime()}]]</h6>
                         <div class="card-body">
                             <h5 class="card-title">[[${booking.pointOfServices.category.getName}]] - [[${booking.pointOfServices.getName()}]]</h5>
                             <p class="card-text">[[${booking.pointOfServices.address.city.getName()}]], [[${booking.pointOfServices.address.getAddress1()}]]</p>
@@ -190,10 +190,12 @@
                 <h5 th:unless="${oldBookings.isEmpty()}">История бронирований</h5>
                 <div th:each="oldbooking : ${oldBookings}">
                 <div class="card mt-2 mb-2 shadow">
-                    <h6 class="card-header">Бронь №[[${oldbooking.getId}]] - Дата и время: [[${oldbooking.getDt}]]</h6>
+                    <h6 class="card-header">Бронь №[[${oldbooking.getId}]] - Дата: [[${oldbooking.getDt.toLocalDate()}]] Время: [[${oldbooking.getDt.toLocalTime()}]]</h6>
                     <div class="card-body">
                         <h5 class="card-title">[[${oldbooking.pointOfServices.category.getName}]] - [[${oldbooking.pointOfServices.getName()}]]</h5>
-                        <p class="card-text">[[${oldbooking.pointOfServices.address.city.getName()}]], [[${oldbooking.pointOfServices.address.getAddress1()}]]</p>
+                        <p class="card-text">[[${oldbooking.pointOfServices.address.city.getName()}]], [[${oldbooking.pointOfServices.address.getAddress1()}]]
+                            <a th:href="@{/booking?posId={posid}(posid = ${oldbooking.getPointOfServices().getId()})}
+                                " class="btn btn-primary">Записаться еще раз</a></p>
                     </div>
                 </div>
                 </div>

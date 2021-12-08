@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getGoodBookings(Principal principal) {
         return this.findAllByUserName(principal.getName()).stream()
                 .filter(booking -> booking.getDt().isAfter(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Booking::getDt))
                 .collect(Collectors.toList());
     }
 
@@ -46,6 +48,7 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getOldBookings(Principal principal) {
         return this.findAllByUserName(principal.getName()).stream()
                 .filter(booking -> booking.getDt().isBefore(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Booking::getDt))
                 .collect(Collectors.toList());
     }
 
