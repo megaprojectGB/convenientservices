@@ -53,4 +53,9 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> findAllByUserName(String name) {
         return repository.findAllByUserUserName(name);
     }
+
+    @Override
+    public List<Booking> findAllByPosId (Long id) {
+        return findAll().stream().filter(booking -> booking.getPointOfServices().getId().equals(id)).sorted((o1, o2) -> o1.getDt().compareTo(o2.getDt())).collect(Collectors.toList());
+    }
 }

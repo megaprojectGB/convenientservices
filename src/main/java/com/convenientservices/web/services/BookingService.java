@@ -12,6 +12,8 @@ public interface BookingService {
 
     List<Booking> findAllByUserName (String name);
 
+    List<Booking> findAllByPosId (Long id);
+
     Booking save (Booking booking);
 
     List<Booking> getGoodBookings (Principal principal);
