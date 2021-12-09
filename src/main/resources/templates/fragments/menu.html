@@ -29,6 +29,8 @@
             <li class="nav-item" th:unless="${page==''}"><a class="nav-link" href="/">Главная</a></li>
             <li class="nav-item" th:if="${page=='main'}"><a class="nav-link active" href="/main">Поиск организаций</a></li>
             <li class="nav-item" th:unless="${page=='main'}"><a class="nav-link" href="/main">Поиск организаций</a></li>
+            <li class="nav-item" th:if="${page=='orders'}"><a class="nav-link active" href="/orders">Мои бронирования</a></li>
+            <li class="nav-item" th:unless="${page=='orders'}"><a class="nav-link" href="/orders">Мои бронирования</a></li>
             <li class="nav-item" th:if="${page=='about'}"><a class="nav-link active" href="/about">О сервисе</a></li>
             <li class="nav-item" th:unless="${page=='about'}"><a class="nav-link " href="/about">О сервисе</a></li>
 

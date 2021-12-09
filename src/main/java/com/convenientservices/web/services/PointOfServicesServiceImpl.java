@@ -293,6 +293,7 @@ public class PointOfServicesServiceImpl implements PointOfServiceServices {
     @Override
     public List<User> getMastersForPos(Long id) {
         Optional<PointOfServices> posOpt = posRepository.findById(id);
+//        List<Passenger> findByOrderBySeatNumberAsc();
         if (posOpt.isEmpty()) {
             return null;
         }

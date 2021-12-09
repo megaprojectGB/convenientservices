@@ -26,6 +26,7 @@ public class OrderController {
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("bookings", bookingService.getGoodBookings(principal));
         model.addAttribute("oldBookings", bookingService.getOldBookings(principal));
+        model.addAttribute("activePage", "orders");
         return "orders";
     }
 
