@@ -82,71 +82,42 @@
                     </div>
                 </ul>
             </div>
-            <div>
-                <div class="mt-2 pt-3">
-                    <form action="/booking" class="justify-content-md-end">
-                        <p>Выберите дату:
-                            <input class="d-none" type="text" name="masterId" th:value="${masterId}"
-                                   max="2022-06-04" min="2021-05-29">
-                            <input class="d-none" type="text" name="posId" th:value="${posId}"
-                                   max="2022-06-04" min="2021-05-29">
-                            <input type="date" name="calendar" th:value="${selectedDate}"
-                                   th:attr="max=${maxDate},  min=${now}">
-                            <input type="submit" value="Отправить"></p>
-                    </form>
-                </div>
-
-                <div th:unless="${masters.isEmpty()}" class="body2">
-
-                    <div class="scheduleContainer">
-
-                        <!-- TIMES -->
-                        <div class="time start-800">8:00</div>
-                        <div class="time start-830">8:30</div>
-                        <div class="time start-900">9:00</div>
-                        <div class="time start-930">9:30</div>
-                        <div class="time start-1000">10:00</div>
-                        <div class="time start-1030">10:30</div>
-                        <div class="time start-1100">11:00</div>
-                        <div class="time start-1130">11:30</div>
-                        <div class="time start-1200">12:00</div>
-                        <div class="time start-1230">12:30</div>
-                        <div class="time start-1300">13:00</div>
-                        <div class="time start-1330">13:30</div>
-                        <div class="time start-1400">14:00</div>
-                        <div class="time start-1430">14:30</div>
-                        <div class="time start-1500">15:00</div>
-                        <div class="time start-1530">15:30</div>
-                        <div class="time start-1600">16:00</div>
-                        <div class="time start-1630">16:30</div>
-                        <div class="time start-1700">17:00</div>
-                        <div class="time start-1730">17:30</div>
-                        <div class="time start-1800">18:00</div>
-                        <div class="time start-1830">18:30</div>
-                        <div class="time start-1900">19:00</div>
-                        <div class="time start-1930">19:30</div>
-                        <div class="time start-2000">20:00</div>
-                        <div class="time start-2030">20:30</div>
-                        <div class="time start-2100">21:00</div>
-                        <div class="time start-2130">21:30</div>
-
-                        <!-- EVENTS -->
-
-                        <div th:each="booking : ${bookingList}" th:attr="class=${booking.resultClassText}">
-                            [[${booking.text}]]
-                            <span>[[${booking.date}]]</span>
-                            <a th:if="${booking.isFree}" class="btn-success" type="button" th:href="@{/booking/add (
-                            posId = ${posId},
-                            masterId = ${masterId},
-                            date = ${booking.getDate()},
-                            startTime = ${booking.getStartTime()}
-                            )}">Забронировать</a>
-                        </div>
-
-
+            <div class="p-4 bg-light" style="width: 820px;">
+                <form method="post" action="/booking/add">
+                    <div class="mb-3">
+                        <label for="posName" class="form-label">Название точки обслуживания</label>
+                        <input name="masterId" type="text" class="form-control d-none"
+                               id="masterId" th:value="${masterId}"
+                               aria-describedby="emailHelp">
+                        <input name="posId" type="text" class="form-control d-none"
+                               id="posId" th:value="${posId}"
+                               aria-describedby="emailHelp">
+                        <input type="text" class="form-control mb-3" id="posName" name="posName"
+                               aria-describedby="emailHelp" th:value="${pos.name}" disabled>
+                        <label for="address" class="form-label">Адрес точки обслуживания</label>
+                        <input type="text" class="form-control mb-3" name="address" id="address"
+                               aria-describedby="emailHelp" th:value="${pos.address.city.name} + ${pos.address.address1}" disabled>
+                        <label for="master" class="form-label">Имя мастера</label>
+                        <input type="text" class="form-control mb-3" name="master" id="master"
+                               aria-describedby="emailHelp" th:value="${master.firstName} + ${master.lastName}" disabled>
+                        <label for="date" class="form-label">Дата бронирования</label>
+                        <input type="text" class="form-control mb-3" name="date" id="date"
+                               aria-describedby="emailHelp" th:value="${date}">
+                        <label for="startTime" class="form-label">Время бронирования</label>
+                        <input type="text" class="form-control mb-3" name="startTime" id="startTime"
+                               aria-describedby="emailHelp" th:value="${startTime}">
                     </div>
-
-                </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Выберите услугу:</label>
+                        <select name="serviceId" class="form-select" aria-label="Default select example"
+                                id="category">
+                            <div th:each="cat : ${master.getMasterServices()}">
+                                <option th:value="${cat.id}">[[${cat.category.name}]] [[${cat.name}]]</option>
+                            </div>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Забронировать</button>
+                </form>
             </div>
 
         </div>

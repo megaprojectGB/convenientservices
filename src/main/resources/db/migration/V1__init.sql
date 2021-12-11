@@ -96,8 +96,9 @@ CREATE TABLE "booking" (
                            "user_id" int,
                            "master_id" int,
                            "point_of_services_id" int,
-                           "dt" timestamp,
-                           "service_id" int
+                           "dt" timestamp
+--                        ,
+--                            "service_id" int
 );
 
 ALTER TABLE "users_roles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
@@ -128,7 +129,7 @@ ALTER TABLE "booking" ADD FOREIGN KEY ("master_id") REFERENCES "users" ("id");
 
 ALTER TABLE "booking" ADD FOREIGN KEY ("point_of_services_id") REFERENCES "point_of_services" ("id");
 
-ALTER TABLE "booking" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
+-- ALTER TABLE "booking" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
 
 ALTER TABLE "service_properties" ADD FOREIGN KEY ("service_id") REFERENCES "service" ("id");
 

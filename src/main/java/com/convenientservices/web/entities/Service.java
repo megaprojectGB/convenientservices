@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Duration;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +29,9 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "service_category_id")
     private ServiceCategory category;
+
+    @ManyToMany(mappedBy = "services")
+    List<Booking> bookings;
 
     @Override
     public boolean equals(Object o) {

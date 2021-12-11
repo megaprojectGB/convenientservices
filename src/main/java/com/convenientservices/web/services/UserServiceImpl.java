@@ -209,4 +209,9 @@ public class UserServiceImpl implements UserService {
         }
         master.get().getMasterPos().add(pos.get());
     }
+
+    @Override
+    public User getById(Long masterId) {
+        return userRepository.findById(masterId).orElse(null);
+    }
 }
