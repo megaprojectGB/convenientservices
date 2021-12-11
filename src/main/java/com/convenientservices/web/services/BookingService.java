@@ -1,8 +1,10 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.dto.BookingRow;
 import com.convenientservices.web.entities.Booking;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingService {
@@ -21,4 +23,8 @@ public interface BookingService {
     void deleteById (Long id);
 
     List<Booking> getOldBookings (Principal principal);
+
+    List<BookingRow> getAllBookingsByPosAndMasterAndDate(LocalDate selectedDate, Long masterId, Long posId);
+
+    void addBooking(Long posId, String date, String startTime, Long masterId, Principal principal, Long serviceId);
 }

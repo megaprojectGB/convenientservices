@@ -29,4 +29,6 @@ public interface UserService {
     List<User> getAllMasters();
 
     void addMasterToPos(Long posId, Long masterId);
+
+    User getById(Long masterId);
 }
