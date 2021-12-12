@@ -24,7 +24,7 @@ public interface BookingService {
 
     List<Booking> getOldBookings (Principal principal);
 
-    List<BookingRow> getAllBookingsByPosAndMasterAndDate(LocalDate selectedDate, Long masterId, Long posId);
+    List<BookingRow> getAllBookingsByPosAndMasterAndDate(Principal principal, LocalDate selectedDate, Long masterId, Long posId);
 
     void addBooking(Long posId, String date, String startTime, Long masterId, Principal principal, Long serviceId);
 }
