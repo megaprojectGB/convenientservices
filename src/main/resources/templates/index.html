@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <title>Главная</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
 </head>
 
-<body class="bg-light">
+<body class="d-flex flex-column h-100 bg-body-img">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="files" viewBox="0 0 16 16" fill="currentColor">
         <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
@@ -31,25 +31,40 @@
         <path d="M0 9.665v1.717a1 1 0 0 0 .553.894l6.553 3.277a2 2 0 0 0 1.788 0l6.553-3.277a1 1 0 0 0 .553-.894V9.665c0-.1-.06-.19-.152-.23L9.5 6.715v.993l5.227 2.178a.125.125 0 0 1 .001.23l-5.94 2.546a2 2 0 0 1-1.576 0l-5.94-2.546a.125.125 0 0 1 .001-.23L6.5 7.708l-.013-.988L.152 9.435a.25.25 0 0 0-.152.23z"/>
     </symbol>
     <symbol id="login" viewBox="0 0 16 16" fill="currentColor">
-        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+        <path fill-rule="evenodd"
+              d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+        <path fill-rule="evenodd"
+              d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
     </symbol>
     <symbol id="reg" viewBox="0 0 16 16" fill="currentColor">
         <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+        <path fill-rule="evenodd"
+              d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
     </symbol>
 </svg>
 
 <nav th:insert="~{fragments/menu :: #nav-nav}"></nav>
 
-<div class="container">
-    <div class="main">
-        <h1>Convenient Services - Home Page</h1>
-        <a class="index_btn btn btn-lg btn btn-outline-secondary" href="/main">Log in</a>
-        <a class="index_btn btn btn-lg btn btn-outline-secondary" href="/registration">Registration</a>
-        <div th:insert="~{fragments/menu :: #bottom-menu}"></div>
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="div_bg">
+            <h3 class="text-center logo_text color_white">Convenient Services</h3>
+            <h1 class="text-center color_white">Бронируй с удовольствием</h1>
+            <p class="lead text-center color_white">Пожалуй лучший сервис для онлайн бронироания услуг.</p>
+            <div class="text-center mx-auto color_white">
+                <a class="btn btn-lg btn btn-outline-secondary color_white" href="/main">Log in</a>
+                <a class="btn btn-lg btn btn-outline-secondary color_white" href="/registration">Registration</a>
+            </div>
+        </div>
     </div>
-</div>
-</body>
+</main>
 
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <hr class="text-center text-light">
+        <p class="text-center text-light">© 2021 Dream Team, Inc</p>
+    </div>
+</footer>
+</body>
 </html>

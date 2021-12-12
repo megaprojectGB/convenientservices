@@ -359,3 +359,15 @@ a {
 .event.stage-saturn {
     background-color: #26C6DA;
 }
+
+.bg-body-img{
+    background-image: url('../img/bg.jpg');
+}
+
+.logo_text {
+    margin-top: 250px;
+}
+
+.color_white {
+    color: white;
+}
