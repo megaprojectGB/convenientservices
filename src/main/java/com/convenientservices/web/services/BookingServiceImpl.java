@@ -24,23 +24,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final UserRepository userRepository;
-    private final BookingRepository repository;
+    private final BookingRepository bookingRepository;
     private final PointOfServicesRepository pointOfServicesRepository;
     private final ServiceRepository serviceRepository;
 
     @Override
     public Booking findById(Long id) throws Exception {
-        return repository.findById(id).orElseThrow();
+        return bookingRepository.findById(id).orElseThrow();
     }
 
     @Override
     public List<Booking> findAll() {
-        return repository.findAll();
+        return bookingRepository.findAll();
     }
 
     @Override
     public Booking save(Booking booking) {
-        return repository.save(booking);
+        return bookingRepository.save(booking);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        bookingRepository.deleteById(id);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> findAllByUserName(String name) {
-        return repository.findAllByUserUserName(name);
+        return bookingRepository.findAllByUserUserName(name);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
         }
         LocalDateTime endDateTime = LocalDateTime.of(selectedDate.plusDays(6), LocalTime.of(23, 0));
         // Список букингов у юзера в точке для мастера на неделю
-        List<Booking> bookings = repository.findAllByUserAndMasterAndPointOfServicesAndDtAfterAndDtBefore(user, master, pos, dateTime, endDateTime);
+        List<Booking> bookings = bookingRepository.findAllByUserAndMasterAndPointOfServicesAndDtAfterAndDtBefore(user, master, pos, dateTime, endDateTime);
         Map<LocalDate, Map<String, BookingRow>> week = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             week.computeIfAbsent(selectedDate.plusDays(i), k -> new HashMap<>());
@@ -115,7 +115,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setUser(user);
         booking.setDt(dt);
         booking.setPointOfServices(pos);
-        repository.save(booking);
+        bookingRepository.save(booking);
     }
 
     private List<BookingRow> getBookingList(Map<LocalDate, Map<String, BookingRow>> week, LocalDate selectedDate) {
@@ -178,5 +178,13 @@ public class BookingServiceImpl implements BookingService {
                 .filter(e -> e.getDt().toLocalDate().compareTo(selectedDate) == 0)
                 .noneMatch(e -> e.getDt().toLocalTime().compareTo(localTime) == 0 ||
                         (localTime.isAfter(e.getDt().toLocalTime()) && localTime.isBefore(e.getDt().toLocalTime().plusMinutes(e.getServices().get(0).getDuration() / 60)))));
+    }
+
+    @Override
+    public List<Booking> getBookingsMaster(Long id) {
+        return bookingRepository.findByMasterId(id).stream()
+                .filter(booking -> booking.getDt().isAfter(LocalDateTime.now()))
+                .sorted(Comparator.comparing(Booking::getDt))
+                .collect(Collectors.toList());
     }
 }

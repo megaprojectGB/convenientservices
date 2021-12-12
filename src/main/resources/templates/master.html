@@ -175,6 +175,40 @@
                 </ul>
             </div>
             <div>
+                <div th:unless="${bookings.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
+                    <h3>Расписание работ: </h3>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Место</th>
+                            <th scope="col">Дата</th>
+                            <th scope="col">Время</th>
+                            <th scope="col">Услуга</th>
+                            <th scope="col">Длительность</th>
+                            <th scope="col">Клиент</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="booking : ${bookings}">
+                            <th scope="row">[[${booking.pointOfServices.name}]]</th>
+                            <td>[[${booking.dt.toLocalDate()}]]</td>
+                            <td>[[${booking.dt.toLocalTime()}]]</td>
+                            <td>
+                                <div th:each="service : ${booking.services}">
+                                    [[${service.name}]]</div>
+                            </td>
+                            <td>
+                                <div th:each="service : ${booking.services}">
+<!--                                    время делим на 60 для получения минут-->
+                                   [[${service.duration}/60]] минут
+                                </div>
+                            </td>
+                            <td>[[${booking.user.firstName}]] [[${booking.user.lastName}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div th:unless="${services.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
                     <h3>Вы добавили в свой профиль следующие услуги: </h3>
                     <table class="table table-hover">
