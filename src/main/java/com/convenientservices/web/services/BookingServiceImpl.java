@@ -176,6 +176,7 @@ public class BookingServiceImpl implements BookingService {
         }
         return (bookings.stream()
                 .filter(e -> e.getDt().toLocalDate().compareTo(selectedDate) == 0)
-                .noneMatch(e -> e.getDt().toLocalTime().compareTo(localTime) == 0));
+                .noneMatch(e -> e.getDt().toLocalTime().compareTo(localTime) == 0 ||
+                        (localTime.isAfter(e.getDt().toLocalTime()) && localTime.isBefore(e.getDt().toLocalTime().plusMinutes(e.getServices().get(0).getDuration() / 60)))));
     }
 }
