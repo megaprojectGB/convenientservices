@@ -45,7 +45,7 @@ public class BookingController {
             masterId = masters.get(0).getId();
         }
 
-        model.addAttribute("bookingList", bookingService.getAllBookingsByPosAndMasterAndDate(selectedDate, masterId, posId));
+        model.addAttribute("bookingList", bookingService.getAllBookingsByPosAndMasterAndDate(principal, selectedDate, masterId, posId));
         model.addAttribute("masterId", masterId);
         model.addAttribute("now", LocalDate.now());
         model.addAttribute("selectedDate", selectedDate);
