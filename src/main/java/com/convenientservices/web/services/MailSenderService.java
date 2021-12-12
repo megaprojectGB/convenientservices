@@ -4,4 +4,5 @@ import com.convenientservices.web.entities.User;
 
 public interface MailSenderService {
     void sendActivateCode(User user);
+    void sendRestoreCode(User user);
 }

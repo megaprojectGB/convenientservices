@@ -30,6 +30,13 @@ public class MailSenderServiceImpl implements MailSenderService{
         sendMail(user.getEmail(), subject, content);
     }
 
+    @Override
+    public void sendRestoreCode(User user) {
+        String subject = "please change your password";
+        String content = "Please change your password. Go to the link: \n"
+                + "http://" + hostname + ":" + port + "/change/" + user.getChangeCode();
+        sendMail(user.getEmail(), subject, content);
+    }
 
     private void sendMail(String email, String subject, String content){
         SimpleMailMessage message = new SimpleMailMessage();

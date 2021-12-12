@@ -31,4 +31,8 @@ public interface UserService {
     void addMasterToPos(Long posId, Long masterId);
 
     User getById(Long masterId);
+
+    User getUserByEmail(String email);
+
+    User getUserByCode(String changeCode, String password);
 }
