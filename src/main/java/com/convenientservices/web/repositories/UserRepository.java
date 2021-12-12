@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // TODO: 09.12.2021  
     List<User> findByOrderByUserNameAsc();
+
+    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByChangeCode(String code);
 }

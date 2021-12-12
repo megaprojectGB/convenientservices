@@ -38,6 +38,9 @@ public class User {
     @Column(name = "activation_code")
     private String activationCode;
 
+    @Column(name = "change_code")
+    private String changeCode;
+
     @Column(name = "phone")
     private String phone;
 

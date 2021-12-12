@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title>Авторизация - Convenient Services</title>
+    <title>Восстановление пароля - Convenient Services</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
 </head>
 
@@ -27,9 +27,8 @@
     <div class="py-1 text-center">
         <a href="/"><img class="d-block mx-auto mb-3" th:src="@{../img/logo.png}" src="../../static/img/logo.png"
                          alt="logo" width="200"></a>
-        <h2>Авторизация пользователя</h2>
-        <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form
-            group has a validation state that can be triggered by attempting to submit the form without completing
+        <h2>Восстановление пароля</h2>
+        <p class="lead">Введите новый пароль и его подтверждение
             it.</p>
     </div>
 
@@ -37,43 +36,22 @@
 
         <div class="row align-items-center g-lg-5 py-2">
             <div class="col-md-10 mx-auto col-lg-8">
-                <form th:action="@{/login}" method="post" class="p-4 p-md-5 border rounded-3 bg-light">
-                    <div th:if="${success}" class="alert alert-success d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                            <use xlink:href="#check-circle-fill"/>
-                        </svg>
-                        <div>
-                            Вы успешно зарегистрировались! Активируйте аккаунт по ссылке в письме и авторизируйтесь!
-                        </div>
-                    </div>
-                    <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                            <use xlink:href="#bug-error"/>
-                        </svg>
-                        <div>
-                            Логин или пароль указаны не верно! Попробуйте повторить ввод!
-                        </div>
-                    </div>
+                <form th:action="@{/change}" method="post" class="p-4 p-md-5 border rounded-3 bg-light">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="User name">
-                        <label for="username"><font style="vertical-align: inherit;"><font
-                                style="vertical-align: inherit;">Введите логин</font></font></label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Пароль">
+                        <input type="text" class="form-control d-none" th:value="${code}" id="code" name="code" >
+                        <input type="password" class="form-control" id="password" name="password" placeholder="User name">
                         <label for="password"><font style="vertical-align: inherit;"><font
-                                style="vertical-align: inherit;">Пароль</font></font></label>
+                                style="vertical-align: inherit;">Введите пароль</font></font></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password2" name="password2" placeholder="User name">
+                        <label for="password2"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Введите пароль</font></font></label>
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit"><font
-                            style="vertical-align: inherit;"><font style="vertical-align: inherit;">Войти в
-                        аккаунт</font></font></button>
+                            style="vertical-align: inherit;"><font style="vertical-align: inherit;">Сохранить</font></font></button>
                     <hr class="my-4">
-                    <small class="text-muted"><font style="vertical-align: inherit;"><font
-                            style="vertical-align: inherit;">Нажимая «Войти в аккаунт», вы соглашаетесь с условиями
-                        использования.</font></font></small>
-                    <div>
-                        <a href="/lost">Восстановить пароль</a>
-                    </div>
+
                 </form>
             </div>
         </div>

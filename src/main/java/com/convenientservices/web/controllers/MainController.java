@@ -27,6 +27,7 @@ public class MainController {
     public String showMainPage (Principal principal,
                                 Model model,
                                 @Param(value = "selectcity") String city,
+                                @Param(value = "active") Boolean active,
                                 @Param(value = "category") String category,
                                 @Param(value = "pos") String pos) {
         Map<String, String> params = new HashMap<>();
@@ -36,6 +37,7 @@ public class MainController {
         params.put("city", selectCity);
         params.put("category", selectCategory);
         model.addAttribute("username", userService.getFIO(principal));
+        model.addAttribute("active", active);
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("cities", cityService.findAll());

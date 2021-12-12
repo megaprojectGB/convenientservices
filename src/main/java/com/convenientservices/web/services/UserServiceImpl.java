@@ -214,4 +214,28 @@ public class UserServiceImpl implements UserService {
     public User getById(Long masterId) {
         return userRepository.findById(masterId).orElse(null);
     }
+
+    @Override
+    @Transactional
+    public User getUserByEmail(String email) {
+        Optional<User> userOpt = userRepository.findUserByEmail(email);
+        User user = userOpt.orElse(null);
+        if (user != null) {
+            user.setChangeCode(Utils.getRandomActivationCode());
+        }
+        mailSenderService.sendRestoreCode(user);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public User getUserByCode(String changeCode, String password) {
+        User user = userRepository.findUserByChangeCode(changeCode).orElse(null);
+        System.out.println(user);
+        if (user != null) {
+            user.setPassword(encoder.encode(password));
+            user.setChangeCode(null);
+        }
+        return user;
+    }
 }
