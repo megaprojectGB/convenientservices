@@ -20,6 +20,7 @@ public class MasterControllers {
     private final PointOfServiceServices pointOfServiceServices;
     private final ServiceService serviceService;
     private final ServiceCategoryService serviceCategoryService;
+    private final BookingService bookingService;
 
     @GetMapping()
     public String showMasterSettingsPage(Principal principal, Model model) {
@@ -27,6 +28,7 @@ public class MasterControllers {
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
         model.addAttribute("pointofservice", userService.getUserDTOByUserName(principal).getMasterPos());
+        model.addAttribute("bookings", bookingService.getBookingsMaster(userService.getUserDTOByUserName(principal).getId()));
         return "master";
     }
 
