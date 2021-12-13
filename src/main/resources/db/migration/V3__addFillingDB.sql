@@ -429,11 +429,11 @@ VALUES (12, 1),
        (47, 13);
 
 INSERT INTO booking(user_id, master_id, point_of_services_id, dt)
-VALUES (24, 12, 1, date '01.11.2021' + interval '12 hour'),
-       (1, 14, 3, date '01.11.2021' + interval '12 hour'),
-       (1, 14, 3, date '01.11.2022' + interval '12 hour'),
-       (1, 14, 3, date '25.11.2022' + interval '12 hour'),
-       (27, 17, 6, date '01.11.2021' + interval '12 hour');
+VALUES (24, 12, 1, 2021-11-01 12:00:00.000000),
+       (1, 14, 3, 2021-11-01 12:00:00.000000),
+       (1, 14, 3, 2021-11-01 12:00:00.000000),
+       (1, 14, 3, 2021-11-01 12:00:00.000000),
+       (27, 17, 6, 2021-11-01 12:00:00.000000);
 
 INSERT INTO service_properties(booking_id, service_id)
 VALUES (1, 2),
