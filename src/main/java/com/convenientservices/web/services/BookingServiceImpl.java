@@ -10,6 +10,8 @@ import com.convenientservices.web.repositories.ServiceRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import com.convenientservices.web.utilities.Utils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,24 +29,25 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final PointOfServicesRepository pointOfServicesRepository;
     private final ServiceRepository serviceRepository;
+    private final MailSenderService mailSenderService;
 
     @Override
-    public Booking findById(Long id) throws Exception {
+    public Booking findById (Long id) throws Exception {
         return bookingRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public List<Booking> findAll() {
+    public List<Booking> findAll () {
         return bookingRepository.findAll();
     }
 
     @Override
-    public Booking save(Booking booking) {
+    public Booking save (Booking booking) {
         return bookingRepository.save(booking);
     }
 
     @Override
-    public List<Booking> getGoodBookings(Principal principal) {
+    public List<Booking> getGoodBookings (Principal principal) {
         return this.findAllByUserName(principal.getName()).stream()
                 .filter(booking -> booking.getDt().isAfter(LocalDateTime.now()))
                 .sorted(Comparator.comparing(Booking::getDt))
@@ -52,12 +55,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById (Long id) {
         bookingRepository.deleteById(id);
     }
 
     @Override
-    public List<Booking> getOldBookings(Principal principal) {
+    public List<Booking> getOldBookings (Principal principal) {
         return this.findAllByUserName(principal.getName()).stream()
                 .filter(booking -> booking.getDt().isBefore(LocalDateTime.now()))
                 .sorted(Comparator.comparing(Booking::getDt))
@@ -65,19 +68,19 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> findAllByUserName(String name) {
+    public List<Booking> findAllByUserName (String name) {
         return bookingRepository.findAllByUserUserName(name);
     }
 
     @Override
-    public List<Booking> findAllByPosId(Long id) {
+    public List<Booking> findAllByPosId (Long id) {
         return findAll().stream().filter(booking -> booking.getPointOfServices().getId().equals(id))
                 .sorted(Comparator.comparing(Booking::getDt))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookingRow> getAllBookingsByPosAndMasterAndDate(Principal principal, LocalDate selectedDate, Long masterId, Long posId) {
+    public List<BookingRow> getAllBookingsByPosAndMasterAndDate (Principal principal, LocalDate selectedDate, Long masterId, Long posId) {
         User user = userRepository.findUserByUserName(principal.getName()).orElse(null);
         User master = userRepository.findById(masterId).orElse(null);
         PointOfServices pos = pointOfServicesRepository.findById(posId).orElse(null);
@@ -101,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public void addBooking(Long posId, String date, String startTime, Long masterId, Principal principal, Long serviceId) {
+    public void addBooking (Long posId, String date, String startTime, Long masterId, Principal principal, Long serviceId) {
         Booking booking = new Booking();
         LocalDateTime dt = LocalDateTime.of(Utils.getLocalDateFromString(date), LocalTime.of(Integer.parseInt(startTime.split(":")[0]), Integer.parseInt(startTime.split(":")[1]), 0));
         User user = userRepository.findUserByUserName(principal.getName()).orElse(null);
@@ -118,7 +121,7 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(booking);
     }
 
-    private List<BookingRow> getBookingList(Map<LocalDate, Map<String, BookingRow>> week, LocalDate selectedDate) {
+    private List<BookingRow> getBookingList (Map<LocalDate, Map<String, BookingRow>> week, LocalDate selectedDate) {
         List<BookingRow> resultList = new ArrayList<>();
         int startTime = 700;
         int flag = 1;
@@ -140,7 +143,7 @@ public class BookingServiceImpl implements BookingService {
         return resultList;
     }
 
-    private Map<String, BookingRow> getDay(LocalDate selectedDate, List<Booking> bookings) {
+    private Map<String, BookingRow> getDay (LocalDate selectedDate, List<Booking> bookings) {
         Map<String, BookingRow> day = new HashMap<>();
         int startTime = 700;
         int endTime = 700;
@@ -167,8 +170,8 @@ public class BookingServiceImpl implements BookingService {
         return day;
     }
 
-    private boolean checkTimeToBooking(LocalDate selectedDate, int startTime, List<Booking> bookings) {
-        LocalTime localTime = LocalTime.of(startTime / 100 , startTime % 100);
+    private boolean checkTimeToBooking (LocalDate selectedDate, int startTime, List<Booking> bookings) {
+        LocalTime localTime = LocalTime.of(startTime / 100, startTime % 100);
         if (selectedDate.compareTo(LocalDate.now()) == 0) {
             if (localTime.isBefore(LocalTime.now())) {
                 return false;
@@ -181,10 +184,22 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getBookingsMaster(Long id) {
+    public List<Booking> getBookingsMaster (Long id) {
         return bookingRepository.findByMasterId(id).stream()
                 .filter(booking -> booking.getDt().isAfter(LocalDateTime.now()))
                 .sorted(Comparator.comparing(Booking::getDt))
                 .collect(Collectors.toList());
+    }
+
+
+    @Async
+    @Scheduled(fixedDelayString = "PT24H")
+    @Override
+    public void bookingReminder () {
+        List<Booking> booking = bookingRepository.findAll().stream().filter(book -> book.getDt().toLocalDate()
+                .isEqual(LocalDate.now().plusDays(1))).collect(Collectors.toList());
+        if (!booking.isEmpty()) {
+            booking.forEach(order -> mailSenderService.sendOrderReminderMessage(order));
+        }
     }
 }
