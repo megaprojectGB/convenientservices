@@ -1,1 +1,1 @@
-web: java -jar target/convenientservices4all-0.0.1-SNAPSHOT.jar -Dserver.port=$PORT
+web: java -jar target/convenientservices-0.0.1-SNAPSHOT.jar -Dserver.port=$PORT
