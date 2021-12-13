@@ -52,7 +52,7 @@ public class MailSenderServiceImpl implements MailSenderService{
     public void sendOrderReminderMessage (Booking booking) {
         String subject = "order reminder";
         String content = "Напоминаем Вам, что вы записаны на " + booking.getDt().toLocalTime() + " "
-                + booking.getDt().toLocalDate() + " к мастеру " + booking.getMaster() + " по адресу "
+                + booking.getDt().toLocalDate() + " к мастеру " + booking.getMaster().getLastName() + " по адресу "
                 + booking.getPointOfServices().getAddress().getAddress1();
         sendMail(booking.getUser().getEmail(), subject, content);
     }
