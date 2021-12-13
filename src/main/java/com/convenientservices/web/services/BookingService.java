@@ -29,4 +29,6 @@ public interface BookingService {
     void addBooking(Long posId, String date, String startTime, Long masterId, Principal principal, Long serviceId);
 
     public List<Booking> getBookingsMaster(Long id);
+
+    void bookingReminder();
 }

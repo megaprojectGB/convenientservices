@@ -1,5 +1,6 @@
 package com.convenientservices.web.services;
 
+import com.convenientservices.web.entities.Booking;
 import com.convenientservices.web.entities.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -36,6 +37,24 @@ public class MailSenderServiceImpl implements MailSenderService{
         String content = "Please change your password. Go to the link: \n"
                 + "http://" + hostname + ":" + port + "/change/" + user.getChangeCode();
         sendMail(user.getEmail(), subject, content);
+    }
+
+    @Override
+    public void sendBookingCancellationMessage (Booking booking) {
+        String subject = "Cancellation of booking " + booking.getId();
+        String content = "Бронирование №"+booking.getId() +" на "+ booking.getDt().toLocalTime() + " " +
+                booking.getDt().toLocalDate()+ " было отменено клиентом "+booking.getUser().getUserName();
+        sendMail(booking.getUser().getEmail(), subject, content);
+        sendMail(booking.getMaster().getEmail(), subject, content);
+    }
+
+    @Override
+    public void sendOrderReminderMessage (Booking booking) {
+        String subject = "order reminder";
+        String content = "Напоминаем Вам, что вы записаны на " + booking.getDt().toLocalTime() + " "
+                + booking.getDt().toLocalDate() + " к мастеру " + booking.getMaster().getLastName() + " по адресу "
+                + booking.getPointOfServices().getAddress().getAddress1();
+        sendMail(booking.getUser().getEmail(), subject, content);
     }
 
     private void sendMail(String email, String subject, String content){
