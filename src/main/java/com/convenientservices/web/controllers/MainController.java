@@ -1,5 +1,6 @@
 package com.convenientservices.web.controllers;
 
+import com.convenientservices.web.enums.UserActivationState;
 import com.convenientservices.web.services.CategoryService;
 import com.convenientservices.web.services.CityService;
 import com.convenientservices.web.services.PointOfServiceServices;
@@ -27,7 +28,7 @@ public class MainController {
     public String showMainPage (Principal principal,
                                 Model model,
                                 @Param(value = "selectcity") String city,
-                                @Param(value = "active") Boolean active,
+                                @Param(value = "active") UserActivationState active,
                                 @Param(value = "category") String category,
                                 @Param(value = "pos") String pos) {
         Map<String, String> params = new HashMap<>();
