@@ -3,6 +3,7 @@ package com.convenientservices.web.services;
 import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
+import com.convenientservices.web.enums.UserActivationState;
 
 import java.security.Principal;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface UserService {
 
     String registerNewUser(User user, String role, String password);
 
-    boolean activateUser(String activateCode);
+    UserActivationState activateUser(String activateCode);
 
     String getFIO(Principal principal);
 

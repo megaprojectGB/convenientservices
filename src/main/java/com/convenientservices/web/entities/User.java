@@ -3,6 +3,8 @@ package com.convenientservices.web.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -46,6 +48,9 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "registration_datetime")
+    private Timestamp registrationDateTime;
 
     @ManyToMany
     @JoinTable(name = "users_roles",
