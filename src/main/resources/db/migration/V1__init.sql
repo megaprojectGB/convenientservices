@@ -9,7 +9,8 @@ CREATE TABLE "users" (
                          "activation_code" VARCHAR(255),
                          "change_code" VARCHAR(255),
                          "email" VARCHAR(255) UNIQUE,
-                         "phone" VARCHAR(255) UNIQUE
+                         "phone" VARCHAR(255) UNIQUE,
+                         "registration_datetime" TIMESTAMP
 );
 
 CREATE TABLE "roles" (

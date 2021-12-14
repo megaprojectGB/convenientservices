@@ -4,17 +4,24 @@ import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.Role;
 import com.convenientservices.web.entities.User;
+import com.convenientservices.web.enums.UserActivationState;
 import com.convenientservices.web.mapper.UserMapper;
 import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.RoleRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import com.convenientservices.web.utilities.Utils;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +41,11 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
     private final UserMapper mapper = UserMapper.MAPPER;
+
+    @Value("${user.activation.timelimit}")
+    private final Duration userActivationTimeLimit = Duration.of(20, ChronoUnit.SECONDS);
+
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public User getUserByUsername(String name) {
@@ -61,6 +73,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(new ArrayList<>(Collections.singleton(roleRepository.findById(Long.parseLong(role)).orElse(null))));
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(Utils.getRandomActivationCode());
+        user.setRegistrationDateTime(Timestamp.valueOf(LocalDateTime.now()));
         userRepository.save(user);
         mailSenderService.sendActivateCode(user);
         return SUCCESS;
@@ -68,19 +81,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean activateUser(String activateCode) {
+    public UserActivationState activateUser(String activateCode) {
         if (activateCode == null || activateCode.isEmpty()) {
-            return false;
+            return UserActivationState.INVALID_CODE;
         }
         User user = userRepository.findFirstByActivationCode(activateCode);
+
         if (user == null) {
-            return false;
+            return UserActivationState.INVALID_CODE;
+        } else {
+            Duration duration = Duration.between(LocalDateTime.ofInstant(user
+                    .getRegistrationDateTime()
+                    .toInstant(), ZoneId.systemDefault()), LocalDateTime.now());
+            boolean activationTimeNotPassed = duration.minus(userActivationTimeLimit).isNegative();
+            logger.info("Registration time = " + LocalDateTime.ofInstant(user.getRegistrationDateTime().toInstant(), ZoneId.systemDefault()));
+
+            logger.info("Activation time not passed = " + activationTimeNotPassed + " time left = " + duration);
+            if (!activationTimeNotPassed) return UserActivationState.EXPIRED;
         }
         user.setActivated(true);
         user.setActivationCode(null);
         userRepository.save(user);
 
-        return true;
+        return UserActivationState.ACTIVATED;
     }
 
     @Override

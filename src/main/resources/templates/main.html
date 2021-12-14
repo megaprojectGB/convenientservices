@@ -52,7 +52,7 @@
         Ваш аккаунт не активирован! Ссылка активации отправлена на Ваш электронный адрес. Аккаунт будет заблокирован
         через 48 часов!
     </div>
-    <div th:if="${active}" class="alert alert-success m-2" role="alert">
+    <div th:if="${active} == 'ACTIVATED'" class="alert alert-success m-2" role="alert">
         Поздравляем! Ваш аккаунт активирован!
     </div>
     <div class="main">
