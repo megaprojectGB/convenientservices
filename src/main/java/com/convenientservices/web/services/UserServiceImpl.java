@@ -14,6 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +45,21 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
     private final MailSenderService mailSenderService;
     private final UserMapper mapper = UserMapper.MAPPER;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findUserByUserName(username).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    }
 
     @Value("${user.activation.timelimit}")
     private final Duration userActivationTimeLimit = Duration.of(20, ChronoUnit.SECONDS);

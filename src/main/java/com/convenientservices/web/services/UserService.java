@@ -4,11 +4,15 @@ import com.convenientservices.web.dto.UserDTO;
 import com.convenientservices.web.entities.PointOfServices;
 import com.convenientservices.web.entities.User;
 import com.convenientservices.web.enums.UserActivationState;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.security.Principal;
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
+    UserDetails loadUserByUsername(String username);
+
     User getUserByUsername(String name);
 
     String registerNewUser(User user, String role, String password);
