@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 public class MailSenderServiceImpl implements MailSenderService{
 
     private final JavaMailSender mailSender;
-    @Value("${mail.port}")
-    private int port;
+//    @Value("${mail.port}")
+//    private int port;
     @Value("${mail.host}")
     private String hostname;
     @Value("${mail.server.username}")
@@ -27,7 +27,7 @@ public class MailSenderServiceImpl implements MailSenderService{
     public void sendActivateCode(User user) {
         String subject = "please activate your account";
         String content = "Please activate your account. Go to the link: \n"
-                + "http://" + hostname + ":" + port + "/users/activate/" + user.getActivationCode();
+                + "http://" + hostname + "/users/activate/" + user.getActivationCode();
         sendMail(user.getEmail(), subject, content);
     }
 
@@ -35,7 +35,7 @@ public class MailSenderServiceImpl implements MailSenderService{
     public void sendRestoreCode(User user) {
         String subject = "please change your password";
         String content = "Please change your password. Go to the link: \n"
-                + "http://" + hostname + ":" + port + "/change/" + user.getChangeCode();
+                + "http://" + hostname + "/change/" + user.getChangeCode();
         sendMail(user.getEmail(), subject, content);
     }
 
