@@ -27,7 +27,7 @@ public class MailSenderServiceImpl implements MailSenderService{
     public void sendActivateCode(User user) {
         String subject = "please activate your account";
         String content = "Please activate your account. Go to the link: \n"
-                + "http://" + hostname + "/users/activate/" + user.getActivationCode();
+                + hostname + "/users/activate/" + user.getActivationCode();
         sendMail(user.getEmail(), subject, content);
     }
 
@@ -35,7 +35,7 @@ public class MailSenderServiceImpl implements MailSenderService{
     public void sendRestoreCode(User user) {
         String subject = "please change your password";
         String content = "Please change your password. Go to the link: \n"
-                + "http://" + hostname + "/change/" + user.getChangeCode();
+                + hostname + "/change/" + user.getChangeCode();
         sendMail(user.getEmail(), subject, content);
     }
 
