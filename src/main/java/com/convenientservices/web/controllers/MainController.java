@@ -38,7 +38,7 @@ public class MainController {
         params.put("city", selectCity);
         params.put("category", selectCategory);
         model.addAttribute("username", userService.getFIO(principal));
-        model.addAttribute("active", active.name());
+        model.addAttribute("active", active);
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("cities", cityService.findAll());
