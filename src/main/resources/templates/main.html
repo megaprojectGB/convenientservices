@@ -63,7 +63,7 @@
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
                         <form method="get" th:action = "@{/main}" class="p-2 mb-2 bg-light border-bottom">
                             <input type="search" class="form-control" autocomplete="false" name="city"
-                                   placeholder="Type to filter...">
+                                   placeholder="Введите название ...">
                         </form>
                         <ul th:each="city : ${cities}" class="list-unstyled mb-0">
                             <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(city = ${city.name}, category = ${selectcategory})}">
@@ -84,7 +84,7 @@
                     <div class="dropdown-menu pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 280px;">
                         <form class="p-2 mb-2 bg-light border-bottom" th:action = "@{/main}" method="get">
                             <input type="search" class="form-control" autocomplete="false" name="category"
-                                   placeholder="Type to filter...">
+                                   placeholder="Введите название...">
                         </form>
                         <ul th:each="category : ${categories}" class="list-unstyled mb-0">
                             <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" th:href="@{/main(category = ${category.name}, city = ${select})}">
@@ -99,8 +99,8 @@
         </div>
 
         <div id="searchPosForm" style="display: flex">
-            <input id="searchPos" name="pos" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" style="float:left">
-            <button class="btn btn-secondary" onclick = "submitForm()">Search</button>
+            <input id="searchPos" name="pos" class="form-control me-2" type="text" placeholder="Поиск" aria-label="Search" style="float:left">
+            <button class="btn btn-secondary" onclick = "submitForm()">Найти</button>
         </div>
 
         <div th:unless="${favourites.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
