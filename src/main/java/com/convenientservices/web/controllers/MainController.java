@@ -28,7 +28,7 @@ public class MainController {
     public String showMainPage (Principal principal,
                                 Model model,
                                 @Param(value = "selectcity") String city,
-                                @Param(value = "active") UserActivationState active,
+                                @Param(value = "active") String active,
                                 @Param(value = "category") String category,
                                 @Param(value = "pos") String pos) {
         Map<String, String> params = new HashMap<>();
