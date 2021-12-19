@@ -14,5 +14,6 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByUserUserName(String name);
     List<Booking> findAllByUserAndMasterAndPointOfServicesAndDtAfterAndDtBefore(User user, User master, PointOfServices pointOfServices, LocalDateTime dt, LocalDateTime dateTime);
+    List<Booking> findAllByMasterAndPointOfServicesAndDtAfterAndDtBefore(User master, PointOfServices pointOfServices, LocalDateTime dt, LocalDateTime dateTime);
     List<Booking> findByMasterId(Long id);
 }

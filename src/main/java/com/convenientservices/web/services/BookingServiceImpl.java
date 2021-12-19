@@ -92,7 +92,8 @@ public class BookingServiceImpl implements BookingService {
         }
         LocalDateTime endDateTime = LocalDateTime.of(selectedDate.plusDays(6), LocalTime.of(23, 0));
         // Список букингов у юзера в точке для мастера на неделю
-        List<Booking> bookings = bookingRepository.findAllByUserAndMasterAndPointOfServicesAndDtAfterAndDtBefore(user, master, pos, dateTime, endDateTime);
+//        List<Booking> bookings = bookingRepository.findAllByUserAndMasterAndPointOfServicesAndDtAfterAndDtBefore(user, master, pos, dateTime, endDateTime);
+        List<Booking> bookings = bookingRepository.findAllByMasterAndPointOfServicesAndDtAfterAndDtBefore(master, pos, dateTime, endDateTime);
         Map<LocalDate, Map<String, BookingRow>> week = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             week.computeIfAbsent(selectedDate.plusDays(i), k -> new HashMap<>());
