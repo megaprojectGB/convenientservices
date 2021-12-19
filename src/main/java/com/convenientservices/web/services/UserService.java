@@ -7,6 +7,7 @@ import com.convenientservices.web.enums.UserActivationState;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     User getUserByUsername(String name);
@@ -26,6 +27,7 @@ public interface UserService {
     void addServiceToUser(Principal principal, Long id);
 
     String saveEditUser(Principal principal, UserDTO user, String matchingPassword, String password);
+    List<User> findAll(Map<String, String> param);
 
     List<User> getAllMasters();
 

@@ -6,11 +6,14 @@ import com.convenientservices.web.services.CategoryService;
 import com.convenientservices.web.services.PointOfServiceServices;
 import com.convenientservices.web.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,8 +26,8 @@ public class BusinessController {
 
 
     @GetMapping()
-    public String showBusinessSettingsPage(Principal principal,
-                                           Model model) {
+    public String showBusinessSettingsPage (Principal principal,
+                                            Model model) {
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         model.addAttribute("services", userService.getUserDTOByUserName(principal).getMasterServices());
@@ -33,9 +36,9 @@ public class BusinessController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUserPos(Principal principal,
-                                Model model,
-                                @PathVariable Long id) {
+    public String deleteUserPos (Principal principal,
+                                 Model model,
+                                 @PathVariable Long id) {
 
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
@@ -45,9 +48,9 @@ public class BusinessController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editUserPos(Principal principal,
-                              Model model,
-                              @PathVariable Long id) {
+    public String editUserPos (Principal principal,
+                               Model model,
+                               @PathVariable Long id) {
         PointOfServiceDto pos = pointOfServiceServices.getPointForEdit(id);
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
@@ -58,16 +61,16 @@ public class BusinessController {
     }
 
     @PostMapping("/edit")
-    public String saveEditUserPos(Principal principal,
-                                  @ModelAttribute("pos") PointOfServiceDto posDto,
-                                  @ModelAttribute("category") String category) {
+    public String saveEditUserPos (Principal principal,
+                                   @ModelAttribute("pos") PointOfServiceDto posDto,
+                                   @ModelAttribute("category") String category) {
         pointOfServiceServices.editNewPos(posDto, category, principal);
         return "redirect:/business";
     }
 
     @GetMapping("/new")
-    public String newUserPos(Principal principal,
-                             Model model) {
+    public String newUserPos (Principal principal,
+                              Model model) {
 
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("pos", new PointOfServiceDto());
@@ -77,17 +80,17 @@ public class BusinessController {
     }
 
     @PostMapping("/new")
-    public String newPos(Principal principal,
-                         @ModelAttribute("pos") PointOfServiceDto posDto,
-                         @ModelAttribute("category") String category) {
+    public String newPos (Principal principal,
+                          @ModelAttribute("pos") PointOfServiceDto posDto,
+                          @ModelAttribute("category") String category) {
         pointOfServiceServices.saveNewPos(posDto, category, principal);
         return "redirect:/business";
     }
 
     @GetMapping("/pos/{id}")
-    public String showPos(Principal principal,
-                             Model model,
-                             @PathVariable Long id) {
+    public String showPos (Principal principal,
+                           Model model,
+                           @PathVariable Long id) {
         model.addAttribute("posId", id);
         model.addAttribute("bookings", bookingService.findAllByPosId(id));
         model.addAttribute("masters", pointOfServiceServices.getMastersForPos(id));
@@ -98,28 +101,37 @@ public class BusinessController {
 
 
     @GetMapping("/deletemasterfrompos")
-    public String deleteMasterPos(@RequestParam(name = "id") Long id,
-                                  @RequestParam(name = "posId") Long posId) {
+    public String deleteMasterPos (@RequestParam(name = "id") Long id,
+                                   @RequestParam(name = "posId") Long posId) {
         pointOfServiceServices.deleteMasterFromPos(id, posId);
         return "redirect:/business/pos/".concat(posId.toString());
     }
 
     @GetMapping("/addmaster")
-    public String addMasterToPos(Principal principal,
-                          Model model,
-                                 @RequestParam(name = "posId") Long posId) {
+    public String addMasterToPos (Principal principal,
+                                  Model model,
+                                  @RequestParam(name = "posId") Long posId,
+                                  @Param(value = "master") String master,
+                                  @Param(value = "service") String service
+
+    ) {
+        Map<String, String> params = new HashMap<>();
+        params.put("name", master);
+        params.put("service", service);
+        params.put("role", "ROLE_MASTER");
+
         model.addAttribute("posId", posId);
-        model.addAttribute("masters", userService.getAllMasters());
+        model.addAttribute("masters", userService.findAll(params));
         model.addAttribute("username", userService.getFIO(principal));
         model.addAttribute("userDTO", userService.getUserDTOByUserName(principal));
         return "business_add_master";
     }
 
     @GetMapping("/addmastertopos")
-    public String addMasterToPos(Principal principal,
-                                 Model model,
-                                 @RequestParam(name = "posId") Long posId,
-                                 @RequestParam(name = "id") Long masterId) {
+    public String addMasterToPos (Principal principal,
+                                  Model model,
+                                  @RequestParam(name = "posId") Long posId,
+                                  @RequestParam(name = "id") Long masterId) {
         userService.addMasterToPos(posId, masterId);
         return "redirect:/business/addmaster?posId=".concat(String.valueOf(posId));
     }
