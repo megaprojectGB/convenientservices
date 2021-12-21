@@ -30,9 +30,9 @@
 Вся разработка выполнена в среде Intellij IDEA.
 
 ## Структура папок проекта
-src
-├───main
-│   ├───java
+* src
+* ├───main
+* │   ├───java
 │   │   └───com
 │   │       └───convenientservices
 │   │           └───web
