@@ -29,6 +29,40 @@
 
 Вся разработка выполнена в среде Intellij IDEA.
 
+## Структура папок проекта
+src
+├───main
+│   ├───java
+│   │   └───com
+│   │       └───convenientservices
+│   │           └───web
+│   │               ├───configurations
+│   │               ├───controllers
+│   │               ├───dto
+│   │               ├───entities
+│   │               ├───enums
+│   │               ├───exceptions
+│   │               ├───mapper
+│   │               ├───repositories
+│   │               ├───services
+│   │               └───utilities
+│   │                   └───spec
+│   └───resources
+│       ├───db
+│       │   └───migration
+│       ├───static
+│       │   ├───img
+│       │   └───styles
+│       └───templates
+│           └───fragments
+└───test
+    └───java
+        └───com
+            └───convenientservices
+                └───web
+                    └───jpa
+
+
 # Реализованный функционал
 На текущий момент создан MVP продукта.
 
