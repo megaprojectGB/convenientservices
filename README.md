@@ -13,7 +13,7 @@
 
 Архитектурно проект представляет собой единое Spring Boot приложение.
 - В качестве базы данных использована PostgreSQL.
-* Слой Persistence - *Spring Data JPA
-* Слой Security - *Spring Security
-* Слой отображения - *Spring MVC
-* Шаблонизатор - *Thymeleaf
+* Слой Persistence - Spring Data JPA
+* Слой Security - Spring Security
+* Слой отображения - Spring MVC
+* Шаблонизатор - Thymeleaf
