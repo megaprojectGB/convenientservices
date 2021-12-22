@@ -4,6 +4,17 @@
 <head>
     <title>Бизнес настройки - Convenient Services</title>
     <div th:insert="~{fragments/menu :: #head}"></div>
+    <script async th:inline="javascript">
+        function submitForm(){
+            let url = '/business/addmaster?posId=';
+            url += [[${posId}]];
+            url += '&master=';
+            url += document.getElementById("searchMaster").value;
+            url += '&service=';
+            url += document.getElementById("searchService").value;
+            window.location.href = url;
+        }
+    </script>
 </head>
 
 <body class="bg-light">
@@ -175,7 +186,13 @@
                 </ul>
             </div>
             <div>
+                <div id="searchPosForm" style="display: flex">
+                    <input id="searchMaster" name="master" class="form-control me-2" type="text" placeholder="Search Name" aria-label="Search" style="float:left">
+                    <input id="searchService" name="service" class="form-control me-2" type="text" placeholder="Search Service" aria-label="Search" style="float:left">
+                    <button class="btn btn-secondary" onclick = "submitForm()">Search</button>
+                </div>
                 <div th:unless="${masters.isEmpty()}" style="width: 820px;" class="p-4 bg-light">
+
                     <h3>Список мастеров точки обслуживания: </h3>
                     <table class="table table-hover">
                         <thead>

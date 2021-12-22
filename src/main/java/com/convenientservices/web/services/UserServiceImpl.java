@@ -10,12 +10,16 @@ import com.convenientservices.web.repositories.PointOfServicesRepository;
 import com.convenientservices.web.repositories.RoleRepository;
 import com.convenientservices.web.repositories.UserRepository;
 import com.convenientservices.web.utilities.Utils;
+import com.convenientservices.web.utilities.spec.MasterSpec;
+import com.convenientservices.web.utilities.spec.PosSpec;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
@@ -221,6 +225,37 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName("ROLE_MASTER").orElse(null);
         return users.stream().filter(e -> e.getRoles().contains(role)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<User> findAll(Map<String, String> params) {
+        final Specification<User> specification = params.entrySet().stream()
+                .filter(it -> StringUtils.hasText(it.getValue()))
+                .map(it -> {
+                    if ("name".equals(it.getKey())) {
+                        return MasterSpec.nameLike(it.getValue());
+                    }
+
+                    if ("service".equals(it.getKey())) {
+                        return MasterSpec.serviceLike(it.getValue());
+                    }
+                    if ("role".equals(it.getKey())) {
+                        return MasterSpec.roleEqual(it.getValue());
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .reduce(Specification::and)
+                .orElse(null);
+        return userRepository.findAll(specification);
+    }
+
+
+
+
+
+
+
+
 
     @Override
     @Transactional
